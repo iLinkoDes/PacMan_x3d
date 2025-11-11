@@ -91,15 +91,26 @@
         <background skyColor="0.1 0.1 0.3"></background>
 
         <!-- Cámara superior (vista aérea) -->
-        <Viewpoint position="0 13 0" orientation="1 0 0 -1.57" fieldOfView="1.2" description="Vista superior"></Viewpoint>
+        <Viewpoint position="0 14 0" orientation="1 0 0 -1.57" fieldOfView="1.2" description="Vista superior"></Viewpoint>
 
         <!-- Title Text -->
-        <Transform translation="0 0.2 -8" rotation="1 0 0 -1.57">
+        <Transform translation="0 0.2 -9" rotation="1 0 0 -1.57">
           <Shape>
             <Appearance>
               <Material diffuseColor="1 1 1"></Material>
             </Appearance>
             <Text id="labelPosicion" string='"Position: 0, 0, 0"' solid="false">
+              <FontStyle family='"SANS"' size="0.5"></FontStyle>
+            </Text>
+          </Shape>
+        </Transform>
+
+        <Transform translation="-3 0.2 -8" rotation="1 0 0 -1.57">
+          <Shape>
+            <Appearance>
+              <Material diffuseColor="1 1 1"></Material>
+            </Appearance>
+            <Text id="labelObstaculo" string='"Position: 0, 0, 0"' solid="false">
               <FontStyle family='"SANS"' size="0.5"></FontStyle>
             </Text>
           </Shape>
@@ -567,10 +578,6 @@
     const JUGADOR_Y = 0.3;
     const JUGADOR_Z = 0;
 
-    // Posicion inicial matriz
-    let matrizX = 14;
-    let matrizZ = 10;
-
     // Obstáculo
     let obsZ = -3;
     let obsDir = 1;
@@ -590,102 +597,7 @@
     // Control de tiempo
     let lastTs = 0;
 
-    // === FUNCIONES ===
-
-    function iniciarJuego() {
-      document.getElementById("pantallaInicio").style.display = "none";
-      document.getElementById("pantallaGameOver").style.display = "none";
-      document.getElementById("contenedorJuego").style.display = "flex";
-      iniciarEscena();
-    }
-
-    function reiniciarJuego() {
-      document.getElementById("pantallaGameOver").style.display = "none";
-      iniciarEscena();
-    }
-
-    function salirJuego() {
-      document.getElementById("pantallaGameOver").style.display = "none";
-      document.getElementById("contenedorJuego").style.display = "none";
-      document.getElementById("pantallaInicio").style.display = "flex";
-      detenerAnimacion();
-    }
-
-    function iniciarEscena() {
-      gameActivo = true;
-      posX = 0;
-      posZ = 0;
-      obsZ = -3.5;
-      obs2Z = -1;
-      obs3Z = -2; 
-      obsDir = 1;
-      lastTs = 0;
-
-      // Reinicia posiciones
-      //document.getElementById("Jugador").setAttribute("translation", `${posX} ${JUGADOR_Y} ${JUGADOR_Z}`);
-      //document.getElementById("Obstaculo").setAttribute("translation", `0 ${JUGADOR_Y} ${obsZ}`);
-      //document.getElementById("EsferaObstaculo").setAttribute("translation", `-1 ${JUGADOR_Y} ${obs2Z}`);
-      //document.getElementById("ConoObstaculo").setAttribute("translation", `1 ${JUGADOR_Y} ${obs3Z}`);
-
-      detenerAnimacion();
-      animationId = requestAnimationFrame(loop);
-    }
-
-    function detenerAnimacion() {
-      if (animationId !== null) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-      }
-    }
-
-    // Animación principal
-    function loop(ts) {
-      if (!gameActivo) return;
-      if (!lastTs) lastTs = ts;
-      const dt = (ts - lastTs) / 1000; // segundos
-      lastTs = ts;
-
-      // Movimiento del obstáculo
-      //obsZ += obsDir * OBS_SPEED * dt;
-      //if (obsZ > OBS_MAX_Z) { obsZ = OBS_MAX_Z; obsDir = -1; }
-      //if (obsZ < OBS_MIN_Z) { obsZ = OBS_MIN_Z; obsDir = 1; }
-
-      //obs2Z += obs2Dir * OBS_SPEED * dt;
-      //if (obs2Z > OBS_MAX_Z) { obs2Z = OBS_MAX_Z; obs2Dir = -1; }
-      //if (obs2Z < OBS_MIN_Z) { obs2Z = OBS_MIN_Z; obs2Dir = 1; }
-
-      //obs3Z += obs3Dir * OBS_SPEED * dt;
-      //if (obs3Z > OBS_MAX_Z) { obs3Z = OBS_MAX_Z; obs3Dir = -1; }
-      //if (obs3Z < OBS_MIN_Z) { obs3Z = OBS_MIN_Z; obs3Dir = 1; }
-
-      // Spawnea los obstáculos
-
-      document.getElementById("Obstaculo").setAttribute("translation", `0 ${JUGADOR_Y} ${obsZ}`);
-      //document.getElementById("EsferaObstaculo").setAttribute("translation", `-1 ${JUGADOR_Y} ${obs2Z}`);
-      //document.getElementById("ConoObstaculo").setAttribute("translation", `1 ${JUGADOR_Y} ${obs3Z}`);
-
-      // --- Detección de colisión frontal ---
-      const dx = Math.abs(posX - 0);     // obstáculo siempre en X=0
-      //const dx2 = Math.abs(posX - (-1)); // esfera en X=-1
-      //const dx3 = Math.abs(posX - 1);    // cono en X=
-      const dz = Math.abs(JUGADOR_Z - obsZ);
-      //const dz2 = Math.abs(JUGADOR_Z - obs2Z);
-      //const dz3 = Math.abs(JUGADOR_Z - obs3Z);
-
-      // Solo colisión si están casi centrados en X y cercanos en Z
-      //if ((dx1 < COL_X && dz1 < COL_Z) ||
-      //    (dx2 < COL_X && dz2 < COL_Z) ||
-      //    (dx3 < COL_X && dz3 < COL_Z)) {
-      if (dx < COL_X && dz < COL_Z){
-        gameActivo = false;
-        detenerAnimacion();
-        document.getElementById("pantallaGameOver").style.display = "flex";
-        return;
-      }
-
-      animationId = requestAnimationFrame(loop);
-    }
-
+    // Matriz del Mapa
     const matriz = [ 
         [11,13,13,9,13,9,13,9,13,9,13,9,13,9,13,9,13,9,13,13,10] , 
         [4,0,0,4,0,4,0,4,0,4,0,4,0,4,0,4,0,4,0,0,4] , 
@@ -717,9 +629,112 @@
         [4,0,11,2,0,0,0,0,0,0,4,0,0,0,0,0,0,3,10,0,4] , 
         [7,13,5,5,13,13,13,13,13,13,5,13,13,13,13,13,13,5,5,13,6] 
     ]
-
-
+ 
+    // Posicion inicial matriz
+    let matrizX = 14;
+    let matrizZ = 10;
     let valorMatriz = matriz[matrizX][matrizZ];
+
+    // === FUNCIONES ===
+
+    function iniciarJuego() {
+      document.getElementById("pantallaInicio").style.display = "none";
+      document.getElementById("pantallaGameOver").style.display = "none";
+      document.getElementById("contenedorJuego").style.display = "flex";
+      iniciarEscena();
+    }
+
+    function reiniciarJuego() {
+      document.getElementById("pantallaGameOver").style.display = "none";
+      iniciarEscena();
+    }
+
+    function salirJuego() {
+      document.getElementById("pantallaGameOver").style.display = "none";
+      document.getElementById("contenedorJuego").style.display = "none";
+      document.getElementById("pantallaInicio").style.display = "flex";
+      detenerAnimacion();
+    }
+
+    function iniciarEscena() {
+      gameActivo = true;
+      posX = 0;
+      posZ = 0;
+      obsZ = -3.5;
+      obs2Z = -1;
+      obs3Z = -2; 
+      obsDir = 1;
+      lastTs = 0;
+      matrizX = 14;
+      matrizZ = 10;
+      valorMatriz = matriz[matrizX][matrizZ];
+
+      // Reinicia posiciones
+      document.getElementById("Jugador").setAttribute("translation", `${posX} ${JUGADOR_Y} ${JUGADOR_Z}`);
+      document.getElementById("Obstaculo").setAttribute("translation", `0 ${JUGADOR_Y} ${obsZ}`);
+      //document.getElementById("EsferaObstaculo").setAttribute("translation", `-1 ${JUGADOR_Y} ${obs2Z}`);
+      //document.getElementById("ConoObstaculo").setAttribute("translation", `1 ${JUGADOR_Y} ${obs3Z}`);
+
+      detenerAnimacion();
+      animationId = requestAnimationFrame(loop);
+    }
+
+    function detenerAnimacion() {
+      if (animationId !== null) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+      }
+    }
+
+    // Animación principal
+    function loop(ts) {
+      if (!gameActivo) return;
+      if (!lastTs) lastTs = ts;
+      const dt = (ts - lastTs) / 1000; // segundos
+      lastTs = ts;
+
+      // Movimiento del obstáculo
+      obsZ += obsDir * OBS_SPEED * dt;
+      if (obsZ > OBS_MAX_Z) { obsZ = OBS_MAX_Z; obsDir = -1; }
+      if (obsZ < OBS_MIN_Z) { obsZ = OBS_MIN_Z; obsDir = 1; }
+
+      //obs2Z += obs2Dir * OBS_SPEED * dt;
+      //if (obs2Z > OBS_MAX_Z) { obs2Z = OBS_MAX_Z; obs2Dir = -1; }
+      //if (obs2Z < OBS_MIN_Z) { obs2Z = OBS_MIN_Z; obs2Dir = 1; }
+
+      //obs3Z += obs3Dir * OBS_SPEED * dt;
+      //if (obs3Z > OBS_MAX_Z) { obs3Z = OBS_MAX_Z; obs3Dir = -1; }
+      //if (obs3Z < OBS_MIN_Z) { obs3Z = OBS_MIN_Z; obs3Dir = 1; }
+
+      // Spawnea los obstáculos
+
+      document.getElementById("Obstaculo").setAttribute("translation", `0 ${JUGADOR_Y} ${obsZ}`);
+      //document.getElementById("EsferaObstaculo").setAttribute("translation", `-1 ${JUGADOR_Y} ${obs2Z}`);
+      //document.getElementById("ConoObstaculo").setAttribute("translation", `1 ${JUGADOR_Y} ${obs3Z}`);
+
+      // --- Detección de colisión frontal ---
+      const dx = Math.abs(posX - 0);     // obstáculo siempre en X=0
+      //const dx2 = Math.abs(posX - (-1)); // esfera en X=-1
+      //const dx3 = Math.abs(posX - 1);    // cono en X=
+      const dz = Math.abs(posZ - obsZ);
+      //const dz2 = Math.abs(posZ - obs2Z);
+      //const dz3 = Math.abs(posZ - obs3Z);
+
+      // Solo colisión si están casi centrados en X y cercanos en Z
+      //if ((dx1 < COL_X && dz1 < COL_Z) ||
+      //    (dx2 < COL_X && dz2 < COL_Z) ||
+      //    (dx3 < COL_X && dz3 < COL_Z)) {
+      if (dx < COL_X && dz < COL_Z){
+        gameActivo = false;
+        matrizX = 14;
+        matrizZ = 10;
+        detenerAnimacion();
+        document.getElementById("pantallaGameOver").style.display = "flex";
+        return;
+      }
+
+      animationId = requestAnimationFrame(loop);
+    }
 
     // Movimiento del jugador
     document.addEventListener("keydown", (e) => {
@@ -756,6 +771,13 @@
         textNode.setAttribute(
           'string',
           `"X: ${posX.toFixed(1)}, Y: ${JUGADOR_Y.toFixed(1)}, Z: ${posZ.toFixed(1)} Matriz: ${valorMatriz}"`
+        );
+    }
+    const textNode2 = document.querySelector('#labelObstaculo');
+    if (textNode2) {
+        textNode2.setAttribute(
+          'string',
+          `"X: 0.0, Y: ${JUGADOR_Y.toFixed(1)}, Z: ${obsZ.toFixed(1)}, diffX: ${Math.abs(posX - 0).toFixed(2)} ,diffZ: ${Math.abs(posZ - obsZ).toFixed(2)}"`
         );
     }
     }
