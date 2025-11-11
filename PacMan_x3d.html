@@ -721,14 +721,14 @@
       numerosSpawns = numerosRandom(66);
 
       //const spawn1 = spawnPoints[numerosSpawns[0]][0];
-      console.log(numerosSpawns);
+      //console.log(numerosSpawns);
 
       // Reinicia posiciones
       document.getElementById("Jugador").setAttribute("translation", `${posX} ${JUGADOR_Y} ${JUGADOR_Z}`);
       document.getElementById("Obstaculo").setAttribute("translation", `${spawnPoints[numerosSpawns[0]][0]} ${JUGADOR_Y} ${spawnPoints[numerosSpawns[0]][1]}`);
       document.getElementById("Obstaculo2").setAttribute("translation", `${spawnPoints[numerosSpawns[1]][0]} ${JUGADOR_Y} ${spawnPoints[numerosSpawns[1]][1]}`);
       document.getElementById("Obstaculo3").setAttribute("translation", `${spawnPoints[numerosSpawns[2]][0]} ${JUGADOR_Y} ${spawnPoints[numerosSpawns[2]][1]}`);
-      console.log("reinicio");
+      //console.log("reinicio");
       detenerAnimacion();
       animationId = requestAnimationFrame(loop);
     }
@@ -761,7 +761,7 @@
       //if (obs3Z < OBS_MIN_Z) { obs3Z = OBS_MIN_Z; obs3Dir = 1; }
 
       // Spawnea los obstáculos
-      console.log("spawn");
+      //console.log("spawn");
       document.getElementById("Obstaculo").setAttribute("translation", `0 ${JUGADOR_Y} ${obsZ}`);
       //document.getElementById("EsferaObstaculo").setAttribute("translation", `-1 ${JUGADOR_Y} ${obs2Z}`);
       //document.getElementById("ConoObstaculo").setAttribute("translation", `1 ${JUGADOR_Y} ${obs3Z}`);
