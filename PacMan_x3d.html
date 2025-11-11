@@ -178,6 +178,10 @@
     const JUGADOR_Y = 0.3;
     const JUGADOR_Z = 0;
 
+    // Posicion inicial matriz
+    let matrizX = 14;
+    let matrizZ = 10;
+
     // Obstáculo
     let obsZ = -3;
     let obsDir = 1;
@@ -293,22 +297,79 @@
       animationId = requestAnimationFrame(loop);
     }
 
+    const matriz = [ 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,13,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,11,1,10,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,3,1,2,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,7,5,6,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] , 
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] 
+    ]
+
+    let valorMatriz = matriz[matrizX][matrizZ];
+
     // Movimiento del jugador
     document.addEventListener("keydown", (e) => {
       if (!gameActivo) return;
       const jugador = document.getElementById("Jugador");
-      if (e.key === "ArrowRight" && posX < 5) posX += 0.5;
-      if (e.key === "ArrowLeft"  && posX > -5) posX -= 0.5;
-      if (e.key === "ArrowUp" && posZ > -7) posZ -= 0.5;
-      if (e.key === "ArrowDown"  && posZ < 7) posZ += 0.5;
+      if (e.key === "ArrowRight" && (valorMatriz == 1 || valorMatriz == 3 || valorMatriz == 5 || valorMatriz == 7 || valorMatriz == 9 || valorMatriz == 11 || valorMatriz == 13 || valorMatriz == 15)){
+         posX += 0.5;
+         matrizZ += 1;
+         valorMatriz = matriz[matrizX][matrizZ]
+      }
+      if (e.key === "ArrowLeft"  && (valorMatriz == 1 || valorMatriz == 2 || valorMatriz == 5 || valorMatriz == 6 || valorMatriz == 9 || valorMatriz == 10 || valorMatriz == 13 || valorMatriz == 14)){
+        posX -= 0.5;
+        matrizZ -= 1;
+        valorMatriz = matriz[matrizX][matrizZ]
+      } 
+      if (e.key === "ArrowUp" && (valorMatriz == 1 || valorMatriz == 2 || valorMatriz == 3 || valorMatriz == 4 || valorMatriz == 5 || valorMatriz == 6 || valorMatriz == 7 || valorMatriz == 8)){
+         posZ -= 0.5;
+        matrizX -= 1;
+        valorMatriz = matriz[matrizX][matrizZ]
+      }
+      if (e.key === "ArrowDown"  && (valorMatriz == 1 || valorMatriz == 2 || valorMatriz == 3 || valorMatriz == 4 || valorMatriz == 9 || valorMatriz == 10 || valorMatriz == 11 || valorMatriz == 12)){
+         posZ += 0.5;
+        matrizX += 1;
+        valorMatriz = matriz[matrizX][matrizZ]
+      }
       jugador.setAttribute("translation", `${posX} ${JUGADOR_Y} ${posZ}`);
     });
 
+    
     // Actualiza el label con las coordenadas actuales del jugador
     function actualizarEtiqueta() {
     const textNode = document.querySelector('#labelPosicion');
     if (textNode) {
-        textNode.setAttribute('string', `"X: ${posX.toFixed(1)} Y: ${JUGADOR_Y.toFixed(1)} Z: ${posZ.toFixed(1)}"`);
+        textNode.setAttribute(
+          'string',
+          `"X: ${posX.toFixed(1)}, Y: ${JUGADOR_Y.toFixed(1)}, Z: ${posZ.toFixed(1)} Matriz: ${valorMatriz}"`
+        );
     }
     }
 
