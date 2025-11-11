@@ -94,7 +94,7 @@
         <Viewpoint position="0 14 0" orientation="1 0 0 -1.57" fieldOfView="1.2" description="Vista superior"></Viewpoint>
 
         <!-- Title Text -->
-        <Transform translation="0 0.2 -9" rotation="1 0 0 -1.57">
+        <Transform translation="-7 0.2 -9" rotation="1 0 0 -1.57">
           <Shape>
             <Appearance>
               <Material diffuseColor="1 1 1"></Material>
@@ -556,21 +556,24 @@
 
 
         <!-- Obstáculo (cubo rojo, mismo tamaño) -->
+        <!-- ROJO-->
         <Transform id="Obstaculo" translation="9 0.3 9">
           <Shape>
             <Appearance><Material diffuseColor="1 0 0"></Material></Appearance>
             <Box size="0.5 0.5 0.5"></Box>
           </Shape>
         </Transform>
+        <!-- ROSA -->
         <Transform id="Obstaculo2" translation="9 0.3 9">
           <Shape>
             <Appearance><Material diffuseColor="1 0 1"></Material></Appearance>
             <Box size="0.5 0.5 0.5"></Box>
           </Shape>
         </Transform>
-                <Transform id="Obstaculo3" translation="9 0.3 9">
+        <!-- AZUL -->
+        <Transform id="Obstaculo3" translation="9 0.3 9">
           <Shape>
-            <Appearance><Material diffuseColor="1 1 0"></Material></Appearance>
+            <Appearance><Material diffuseColor="0 0 1"></Material></Appearance>
             <Box size="0.5 0.5 0.5"></Box>
           </Shape>
         </Transform>
@@ -641,8 +644,8 @@
         [4,0,11,2,0,0,0,0,0,0,4,0,0,0,0,0,0,3,10,0,4] , 
         [7,13,5,5,13,13,13,13,13,13,5,13,13,13,13,13,13,5,5,13,6] 
     ]
-        
-    function numerosRandom(range = 3) {
+
+    function numerosRandom(range = 66) {
         const count = 3;
 
         // Construye array 0..range-1
@@ -659,12 +662,28 @@
         return pool.slice(range - count);
     }
 
-    const spawnPoints = [ [-5,-7], [-3.5,-7], [-2.5,-7] ]
+    const spawnPoints = [ 
+        [-5,-7], [-3.5,-7], [-2.5,-7], [-1.5, -7], [-0.5, -7], [0.5, -7], [1.5, -7], [2.5, -7], [3.5, -7], [5,-7], 
+        [-3.5, -4.5], [-2.5, -4.5], [-1.5, -4.5], [-0.5, -4.5], [0.5, -4.5], [1.5, -4.5], [2.5, -4.5], [3.5, -4.5], 
+        [-5,-3.5], [-3.5,-3.5], [-2.5,-3.5], [-1.5, -3.5], [0, -3.5], [1.5, -3.5], [2.5, -3.5], [3.5, -3.5], [5,-3.5], 
+        [-2.5, -2.5], [0, -2.5], [2.5, -2.5], 
+        [-1.5, -1.5], [0, -1.5], [1.5, -1.5], 
+        [-5, -0.5], [-3.5, -0.5], [3.5, -0.5], [5, -0.5], 
+        [-2.5, 0], [-1.5, 0], [1.5,0], [2.5, 0], 
+        [-5, 0.5], [-3.5, 0.5], [3.5, 0.5], [5, 0.5], 
+        [-1.5, 1.5], [0, 1.5], [1.5, 1.5], 
+        [-2.5, 2.5], [0, 2.5], [2.5, 2.5], 
+        [-5, 3.5], [-3.5, 3.5], [-2.5, 3.5], [0, 3.5], [2.5, 3.5], [3.5, 3.5], [5, 3.5],
+        [-5, 4.5], [-2.5, 4.5], [0, 4.5], [2.5, 4.5], [5, 4.5],
+        [-5,7], [-3.5,7],  [0.5, 7], [3.5, 7], [5,7]
+ ];
  
     // Posicion inicial matriz
     let matrizX = 14;
     let matrizZ = 10;
     let valorMatriz = matriz[matrizX][matrizZ];
+
+    numerosSpawns = numerosRandom(66);
 
     // === FUNCIONES ===
 
@@ -699,16 +718,17 @@
       matrizX = 14;
       matrizZ = 10;
       valorMatriz = matriz[matrizX][matrizZ];
-      const numerosSpawns = numerosRandom(3);
+      numerosSpawns = numerosRandom(66);
 
-      const spawn1 = spawnPoints[numerosSpawns[0]][0];
+      //const spawn1 = spawnPoints[numerosSpawns[0]][0];
+      console.log(numerosSpawns);
 
       // Reinicia posiciones
       document.getElementById("Jugador").setAttribute("translation", `${posX} ${JUGADOR_Y} ${JUGADOR_Z}`);
       document.getElementById("Obstaculo").setAttribute("translation", `${spawnPoints[numerosSpawns[0]][0]} ${JUGADOR_Y} ${spawnPoints[numerosSpawns[0]][1]}`);
-      document.getElementById("Obstaculo2").setAttribute("translation", `${spawnPoints[numerosSpawns[1]][0]} ${JUGADOR_Y} ${spawnPoints[numerosSpawns[0]][1]}`);
-      document.getElementById("Obstaculo3").setAttribute("translation", `${spawnPoints[numerosSpawns[2]][0]} ${JUGADOR_Y} ${spawnPoints[numerosSpawns[0]][1]}`);
-
+      document.getElementById("Obstaculo2").setAttribute("translation", `${spawnPoints[numerosSpawns[1]][0]} ${JUGADOR_Y} ${spawnPoints[numerosSpawns[1]][1]}`);
+      document.getElementById("Obstaculo3").setAttribute("translation", `${spawnPoints[numerosSpawns[2]][0]} ${JUGADOR_Y} ${spawnPoints[numerosSpawns[2]][1]}`);
+      console.log("reinicio");
       detenerAnimacion();
       animationId = requestAnimationFrame(loop);
     }
@@ -741,7 +761,7 @@
       //if (obs3Z < OBS_MIN_Z) { obs3Z = OBS_MIN_Z; obs3Dir = 1; }
 
       // Spawnea los obstáculos
-
+      console.log("spawn");
       document.getElementById("Obstaculo").setAttribute("translation", `0 ${JUGADOR_Y} ${obsZ}`);
       //document.getElementById("EsferaObstaculo").setAttribute("translation", `-1 ${JUGADOR_Y} ${obs2Z}`);
       //document.getElementById("ConoObstaculo").setAttribute("translation", `1 ${JUGADOR_Y} ${obs3Z}`);
@@ -804,7 +824,8 @@
     if (textNode) {
         textNode.setAttribute(
           'string',
-          `"X: ${posX.toFixed(1)}, Y: ${JUGADOR_Y.toFixed(1)}, Z: ${posZ.toFixed(1)} Matriz: ${valorMatriz}"`
+          //`"X: ${posX.toFixed(1)}, Y: ${JUGADOR_Y.toFixed(1)}, Z: ${posZ.toFixed(1)} Matriz: ${valorMatriz}"`
+          `" Obj 1: ${spawnPoints[numerosSpawns[0]][0]}, ${JUGADOR_Y}, ${spawnPoints[numerosSpawns[0]][1]}. Obj 2: ${spawnPoints[numerosSpawns[1]][0]}, ${JUGADOR_Y}, ${spawnPoints[numerosSpawns[1]][1]}. Obj 3: ${spawnPoints[numerosSpawns[2]][0]}, ${JUGADOR_Y}, ${spawnPoints[numerosSpawns[2]][1]}."`
         );
     }
     const textNode2 = document.querySelector('#labelObstaculo');
