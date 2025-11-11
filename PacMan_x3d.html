@@ -6,6 +6,17 @@
   <title>Pac-Man en X3D</title>
   <script src="https://www.x3dom.org/download/x3dom.js"></script>
   <link rel="stylesheet" href="https://www.x3dom.org/download/x3dom.css">
+  <script>
+    // Optimize canvas context for frequent getImageData calls
+    var originalGetContext = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function(contextType, options) {
+      if (contextType === '2d') {
+        options = options || {};
+        options.willReadFrequently = true;
+      }
+      return originalGetContext.call(this, contextType, options);
+    };
+  </script>
   <style>
     body {
       margin: 0;
@@ -77,28 +88,72 @@
   <!-- Contenedor del juego -->
   <!-- <div id="contenedorJuego" style="display:none;">  <<<< REVERTIR PARE REAPARECER EL MENU -->
     <div id="contenedorJuego" style=""></div>
-    <x3d id="escena" width="1200px" height="1200px">
+    <x3d id="escena" width="1500px" height="1500px">
       <scene>
         <background skyColor="0.1 0.1 0.3"></background>
 
         <!-- Cámara superior (vista aérea) -->
-        <Viewpoint position="0 10 0" orientation="1 0 0 -1.57" fieldOfView="1.2" description="Vista superior"></Viewpoint>
+        <Viewpoint position="0 15 0" orientation="1 0 0 -1.57" fieldOfView="1.2" description="Vista superior"></Viewpoint>
+
+        <!-- Title Text -->
+        <Transform translation="0 0.2 -4" rotation="1 0 0 -1.57">
+          <Shape>
+            <Appearance>
+              <Material diffuseColor="0 0 0"></Material>
+            </Appearance>
+            <Text id="labelPosicion" string='"Position: 0, 0, 0"' solid="false">
+              <FontStyle family='"SANS"' size="0.5"></FontStyle>
+            </Text>
+          </Shape>
+        </Transform>
 
         <!-- Suelo -->
         <Shape>
           <Appearance>
             <Material diffuseColor="0.1 0.6 0.1"></Material>
           </Appearance>
-          <Box size="12 0.1 13"></Box>
+          <Box size="15.5 0.1 20"></Box>
         </Shape>
 
-        <!-- Jugador (cubo azul) -->
+        <!-- Jugador (PacMan) -->
         <Transform id="Jugador" translation="0 0 0">
           <Shape>
             <Appearance><Material diffuseColor="0.2 0.2 1"></Material></Appearance>
             <Box size="0.5 0.5 0.5"></Box>
           </Shape>
         </Transform>
+
+        <!-- Escenario -->
+         <Transform id="MuroSpawn1" translation="0 0 1">
+            <Shape>
+              <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
+              <Box size="2.5 0.5 0.5"></Box>
+            </Shape>
+         </Transform>
+         <Transform id="MuroSpawn2" translation="-1 0 0">
+            <Shape>
+              <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
+              <Box size="0.5 0.5 1.5"></Box>
+            </Shape>
+         </Transform>
+        <Transform id="MuroSpawn3" translation="1 0 0">
+            <Shape>
+              <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
+              <Box size="0.5 0.5 1.5"></Box>
+            </Shape>
+         </Transform>
+        <Transform id="MuroSpawn4" translation="0.75 0 -1">
+            <Shape>
+              <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
+              <Box size="1 0.5 0.5"></Box>
+            </Shape>
+         </Transform>
+        <Transform id="MuroSpawn5" translation="-0.75 0 -1">
+            <Shape>
+              <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
+              <Box size="1 0.5 0.5"></Box>
+            </Shape>
+         </Transform>
 
         <!-- Obstáculo (cubo rojo, mismo tamaño) -->
         <!-- <Transform id="Obstaculo" translation="0 0.3 -3">
@@ -242,13 +297,25 @@
     document.addEventListener("keydown", (e) => {
       if (!gameActivo) return;
       const jugador = document.getElementById("Jugador");
-      if (e.key === "ArrowRight" && posX < 4) posX += 0.5;
-      if (e.key === "ArrowLeft"  && posX > -4) posX -= 0.5;
-      if (e.key === "ArrowUp" && posZ < 4) posZ -= 0.5;
-      if (e.key === "ArrowDown"  && posZ > -4) posZ += 0.5;
+      if (e.key === "ArrowRight" && posX < 7) posX += 0.5;
+      if (e.key === "ArrowLeft"  && posX > -7) posX -= 0.5;
+      if (e.key === "ArrowUp" && posZ > -9) posZ -= 0.5;
+      if (e.key === "ArrowDown"  && posZ < 9) posZ += 0.5;
       jugador.setAttribute("translation", `${posX} ${JUGADOR_Y} ${posZ}`);
     });
 
+    // Actualiza el label con las coordenadas actuales del jugador
+    function actualizarEtiqueta() {
+    const textNode = document.querySelector('#labelPosicion');
+    if (textNode) {
+        textNode.setAttribute('string', `"X: ${posX.toFixed(1)} Y: ${JUGADOR_Y.toFixed(1)} Z: ${posZ.toFixed(1)}"`);
+    }
+    }
+
+    // Llamar a funcion en el bucle del juego (por ejemplo, en requestAnimationFrame o en tu función de actualización)
+    setInterval(actualizarEtiqueta, 100); // Update every 100ms
+
+    // Activa la escena al cargar la pagina, desactivar al terminar debug
     iniciarEscena();
   </script>
 </body>
