@@ -119,8 +119,9 @@
 
     // Jugador
     let posX = 0;
+    let posZ = 0;
     const JUGADOR_Y = 0.3;
-    const JUGADOR_Z = 3;
+    const JUGADOR_Z = 0;
 
     // Obstáculo
     let obsZ = -3;
@@ -165,6 +166,7 @@
     function iniciarEscena() {
       gameActivo = true;
       posX = 0;
+      posZ = 0;
       obsZ = -3;
       obs2Z = -1;
       obs3Z = -2; 
@@ -242,8 +244,12 @@
       const jugador = document.getElementById("Jugador");
       if (e.key === "ArrowRight" && posX < 4) posX += 0.5;
       if (e.key === "ArrowLeft"  && posX > -4) posX -= 0.5;
-      jugador.setAttribute("translation", `${posX} ${JUGADOR_Y} ${JUGADOR_Z}`);
+      if (e.key === "ArrowUp" && posZ < 4) posZ -= 0.5;
+      if (e.key === "ArrowDown"  && posZ > -4) posZ += 0.5;
+      jugador.setAttribute("translation", `${posX} ${JUGADOR_Y} ${posZ}`);
     });
+
+    iniciarEscena();
   </script>
 </body>
 </html>
