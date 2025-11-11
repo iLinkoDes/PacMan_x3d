@@ -85,7 +85,7 @@
 
   <!-- Contenedor del juego -->
   <!-- <div id="contenedorJuego" style="display:none;"> -->
-    <div id="contenedorJuego" style=""></div>
+    <div id="contenedorJuego"></div>
     <x3d id="escena" width="1200px" height="1200px">
       <scene>
         <background skyColor="0.1 0.1 0.3"></background>
@@ -556,9 +556,21 @@
 
 
         <!-- Obstáculo (cubo rojo, mismo tamaño) -->
-        <Transform id="Obstaculo" translation="0 0.3 -3.5">
+        <Transform id="Obstaculo" translation="9 0.3 9">
           <Shape>
             <Appearance><Material diffuseColor="1 0 0"></Material></Appearance>
+            <Box size="0.5 0.5 0.5"></Box>
+          </Shape>
+        </Transform>
+        <Transform id="Obstaculo2" translation="9 0.3 9">
+          <Shape>
+            <Appearance><Material diffuseColor="1 0 1"></Material></Appearance>
+            <Box size="0.5 0.5 0.5"></Box>
+          </Shape>
+        </Transform>
+                <Transform id="Obstaculo3" translation="9 0.3 9">
+          <Shape>
+            <Appearance><Material diffuseColor="1 1 0"></Material></Appearance>
             <Box size="0.5 0.5 0.5"></Box>
           </Shape>
         </Transform>
@@ -629,6 +641,25 @@
         [4,0,11,2,0,0,0,0,0,0,4,0,0,0,0,0,0,3,10,0,4] , 
         [7,13,5,5,13,13,13,13,13,13,5,13,13,13,13,13,13,5,5,13,6] 
     ]
+        
+    function numerosRandom(range = 3) {
+        const count = 3;
+
+        // Construye array 0..range-1
+        const pool = Array.from({ length: range }, (_, i) => i);
+
+        // Fisher-Yates parcial: solo hacemos los swaps necesarios para obtener `count` elementos aleatorios
+        // Esto es más eficiente que barajar todo si `range` es grande.
+        for (let i = range - 1; i >= range - count; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [pool[i], pool[j]] = [pool[j], pool[i]];
+        }
+
+        // Tomamos los últimos `count` elementos (ya aleatorizados)
+        return pool.slice(range - count);
+    }
+
+    const spawnPoints = [ [-5,-7], [-3.5,-7], [-2.5,-7] ]
  
     // Posicion inicial matriz
     let matrizX = 14;
@@ -668,12 +699,15 @@
       matrizX = 14;
       matrizZ = 10;
       valorMatriz = matriz[matrizX][matrizZ];
+      const numerosSpawns = numerosRandom(3);
+
+      const spawn1 = spawnPoints[numerosSpawns[0]][0];
 
       // Reinicia posiciones
       document.getElementById("Jugador").setAttribute("translation", `${posX} ${JUGADOR_Y} ${JUGADOR_Z}`);
-      document.getElementById("Obstaculo").setAttribute("translation", `0 ${JUGADOR_Y} ${obsZ}`);
-      //document.getElementById("EsferaObstaculo").setAttribute("translation", `-1 ${JUGADOR_Y} ${obs2Z}`);
-      //document.getElementById("ConoObstaculo").setAttribute("translation", `1 ${JUGADOR_Y} ${obs3Z}`);
+      document.getElementById("Obstaculo").setAttribute("translation", `${spawnPoints[numerosSpawns[0]][0]} ${JUGADOR_Y} ${spawnPoints[numerosSpawns[0]][1]}`);
+      document.getElementById("Obstaculo2").setAttribute("translation", `${spawnPoints[numerosSpawns[1]][0]} ${JUGADOR_Y} ${spawnPoints[numerosSpawns[0]][1]}`);
+      document.getElementById("Obstaculo3").setAttribute("translation", `${spawnPoints[numerosSpawns[2]][0]} ${JUGADOR_Y} ${spawnPoints[numerosSpawns[0]][1]}`);
 
       detenerAnimacion();
       animationId = requestAnimationFrame(loop);
@@ -782,11 +816,13 @@
     }
     }
 
+
     // Llamar a funcion en el bucle del juego (por ejemplo, en requestAnimationFrame o en tu función de actualización)
     setInterval(actualizarEtiqueta, 100); // Update every 100ms
 
     // Activa la escena al cargar la pagina, desactivar al terminar debug
     iniciarEscena();
+
   </script>
 </body>
 </html>
