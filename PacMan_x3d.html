@@ -32,7 +32,7 @@
     #pantallaInicio, #pantallaGameOver, #contenedorJuego {
       position: absolute;
       inset: 0;
-      display: flex;
+      display: none;
       justify-content: center;
       align-items: center;
       flex-direction: column;
@@ -59,6 +59,7 @@
       border-radius: 10px;
       background: #000;
     }
+    #contenedorJuego { display: flex; }
   </style>
 </head>
 <body>
@@ -83,8 +84,8 @@
   </div>
 
   <!-- Contenedor del juego -->
-  <div id="contenedorJuego" style="display:none;">
-   <!--  <div id="contenedorJuego" style=""></div> -->
+  <!-- <div id="contenedorJuego" style="display:none;"> -->
+    <div id="contenedorJuego" style=""></div>
     <x3d id="escena" width="1200px" height="1200px">
       <scene>
         <background skyColor="0.1 0.1 0.3"></background>
@@ -763,7 +764,7 @@
     setInterval(actualizarEtiqueta, 100); // Update every 100ms
 
     // Activa la escena al cargar la pagina, desactivar al terminar debug
-    //iniciarEscena();
+    iniciarEscena();
   </script>
 </body>
 </html>
