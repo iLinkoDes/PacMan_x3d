@@ -88,12 +88,12 @@
   <!-- Contenedor del juego -->
   <!-- <div id="contenedorJuego" style="display:none;">  <<<< REVERTIR PARE REAPARECER EL MENU -->
     <div id="contenedorJuego" style=""></div>
-    <x3d id="escena" width="1500px" height="1500px">
+    <x3d id="escena" width="1200px" height="1200px">
       <scene>
         <background skyColor="0.1 0.1 0.3"></background>
 
         <!-- Cámara superior (vista aérea) -->
-        <Viewpoint position="0 15 0" orientation="1 0 0 -1.57" fieldOfView="1.2" description="Vista superior"></Viewpoint>
+        <Viewpoint position="0 13 0" orientation="1 0 0 -1.57" fieldOfView="1.2" description="Vista superior"></Viewpoint>
 
         <!-- Title Text -->
         <Transform translation="0 0.2 -4" rotation="1 0 0 -1.57">
@@ -112,7 +112,7 @@
           <Appearance>
             <Material diffuseColor="0.1 0.6 0.1"></Material>
           </Appearance>
-          <Box size="15.5 0.1 20"></Box>
+          <Box size="12 0.1 16"></Box>
         </Shape>
 
         <!-- Jugador (PacMan) -->
@@ -297,10 +297,10 @@
     document.addEventListener("keydown", (e) => {
       if (!gameActivo) return;
       const jugador = document.getElementById("Jugador");
-      if (e.key === "ArrowRight" && posX < 7) posX += 0.5;
-      if (e.key === "ArrowLeft"  && posX > -7) posX -= 0.5;
-      if (e.key === "ArrowUp" && posZ > -9) posZ -= 0.5;
-      if (e.key === "ArrowDown"  && posZ < 9) posZ += 0.5;
+      if (e.key === "ArrowRight" && posX < 5) posX += 0.5;
+      if (e.key === "ArrowLeft"  && posX > -5) posX -= 0.5;
+      if (e.key === "ArrowUp" && posZ > -7) posZ -= 0.5;
+      if (e.key === "ArrowDown"  && posZ < 7) posZ += 0.5;
       jugador.setAttribute("translation", `${posX} ${JUGADOR_Y} ${posZ}`);
     });
 
