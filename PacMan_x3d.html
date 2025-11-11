@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<!-- ALUMNO: IAN RIVERO CARMONA-->
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pac-Man en X3D</title>
+  <script src="https://www.x3dom.org/download/x3dom.js"></script>
+  <link rel="stylesheet" href="https://www.x3dom.org/download/x3dom.css">
+  <style>
+    body {
+      margin: 0;
+      background-color: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #pantallaInicio, #pantallaGameOver, #contenedorJuego {
+      position: absolute;
+      inset: 0;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    #pantallaInicio, #pantallaGameOver {
+      background: rgba(0,0,0,0.9);
+      text-align: center;
+      z-index: 2;
+    }
+    #pantallaGameOver { display: none; }
+    button {
+      margin-top: 16px;
+      padding: 10px 20px;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #1976d2;
+      color: white;
+    }
+    button:hover { background-color: #2196f3; }
+    x3d {
+      border: 2px solid #444;
+      border-radius: 10px;
+      background: #000;
+    }
+    #contenedorJuego {
+        display: flex;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pantalla de inicio -->
+  <div id="pantallaInicio">
+    <h1>🚀 Pac-Man en X3D 🚗</h1>
+    <p>Usa las flechas ← ↑ ↓ →  para mover a Pac-Man a travez del nivel.<br>
+       Cuidado con los fantasmas! <b>Continuar</b> o <b>Salir</b>.</p>
+       <br>Alumno: Ian Rivero Carmona
+    <button onclick="iniciarJuego()">Iniciar Juego</button>
+  </div>
+
+  <!-- Pantalla de Game Over -->
+  <div id="pantallaGameOver">
+    <h1>💥 ¡Game Over!</h1>
+    <p>¿Deseas continuar o salir al menú principal?</p>
+    <div>
+      <button onclick="reiniciarJuego()">Continuar</button>
+      <button onclick="salirJuego()">Salir</button>
+    </div>
+  </div>
+
+  <!-- Contenedor del juego -->
+  <!-- <div id="contenedorJuego" style="display:none;">  <<<< REVERTIR PARE REAPARECER EL MENU -->
+    <div id="contenedorJuego" style=""></div>
+    <x3d id="escena" width="1200px" height="1200px">
+      <scene>
+        <background skyColor="0.1 0.1 0.3"></background>
+
+        <!-- Cámara superior (vista aérea) -->
+        <Viewpoint position="0 10 0" orientation="1 0 0 -1.57" fieldOfView="1.2" description="Vista superior"></Viewpoint>
+
+        <!-- Suelo -->
+        <Shape>
+          <Appearance>
+            <Material diffuseColor="0.1 0.6 0.1"></Material>
+          </Appearance>
+          <Box size="12 0.1 13"></Box>
+        </Shape>
+
+        <!-- Jugador (cubo azul) -->
+        <Transform id="Jugador" translation="0 0 0">
+          <Shape>
+            <Appearance><Material diffuseColor="0.2 0.2 1"></Material></Appearance>
+            <Box size="0.5 0.5 0.5"></Box>
+          </Shape>
+        </Transform>
+
+        <!-- Obstáculo (cubo rojo, mismo tamaño) -->
+        <!-- <Transform id="Obstaculo" translation="0 0.3 -3">
+          <Shape>
+            <Appearance><Material diffuseColor="1 0 0"></Material></Appearance>
+            <Box size="0.5 0.5 0.5"></Box>
+          </Shape>
+        </Transform> -->
+
+      </scene>
+    </x3d>
+  </div>
+
+  <script>
+    // === VARIABLES DE ESTADO ===
+    let gameActivo = false;
+    let animationId = null;
+
+    // Jugador
+    let posX = 0;
+    const JUGADOR_Y = 0.3;
+    const JUGADOR_Z = 3;
+
+    // Obstáculo
+    let obsZ = -3;
+    let obsDir = 1;
+
+    let obs2Z = -2;
+    let obs2Dir = 1;
+
+    let obs3Z = -1;
+    let obs3Dir = 1;
+    const OBS_SPEED = 2.2; // unidades/seg
+    const OBS_MIN_Z = -3, OBS_MAX_Z = 3;
+
+    // Límites para colisión frontal
+    const COL_X = 0.25; // debe estar casi centrado
+    const COL_Z = 0.5;  // distancia frontal
+
+    // Control de tiempo
+    let lastTs = 0;
+
+    // === FUNCIONES ===
+
+    function iniciarJuego() {
+      document.getElementById("pantallaInicio").style.display = "none";
+      document.getElementById("pantallaGameOver").style.display = "none";
+      document.getElementById("contenedorJuego").style.display = "flex";
+      iniciarEscena();
+    }
+
+    function reiniciarJuego() {
+      document.getElementById("pantallaGameOver").style.display = "none";
+      iniciarEscena();
+    }
+
+    function salirJuego() {
+      document.getElementById("pantallaGameOver").style.display = "none";
+      document.getElementById("contenedorJuego").style.display = "none";
+      document.getElementById("pantallaInicio").style.display = "flex";
+      detenerAnimacion();
+    }
+
+    function iniciarEscena() {
+      gameActivo = true;
+      posX = 0;
+      obsZ = -3;
+      obs2Z = -1;
+      obs3Z = -2; 
+      obsDir = 1;
+      lastTs = 0;
+
+      // Reinicia posiciones
+      //document.getElementById("Jugador").setAttribute("translation", `${posX} ${JUGADOR_Y} ${JUGADOR_Z}`);
+      //document.getElementById("Obstaculo").setAttribute("translation", `0 ${JUGADOR_Y} ${obsZ}`);
+      //document.getElementById("EsferaObstaculo").setAttribute("translation", `-1 ${JUGADOR_Y} ${obs2Z}`);
+      //document.getElementById("ConoObstaculo").setAttribute("translation", `1 ${JUGADOR_Y} ${obs3Z}`);
+
+      detenerAnimacion();
+      animationId = requestAnimationFrame(loop);
+    }
+
+    function detenerAnimacion() {
+      if (animationId !== null) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+      }
+    }
+
+    // Animación principal
+    function loop(ts) {
+      if (!gameActivo) return;
+      if (!lastTs) lastTs = ts;
+      const dt = (ts - lastTs) / 1000; // segundos
+      lastTs = ts;
+
+      // Movimiento del obstáculo
+      //obsZ += obsDir * OBS_SPEED * dt;
+      //if (obsZ > OBS_MAX_Z) { obsZ = OBS_MAX_Z; obsDir = -1; }
+      //if (obsZ < OBS_MIN_Z) { obsZ = OBS_MIN_Z; obsDir = 1; }
+
+      //obs2Z += obs2Dir * OBS_SPEED * dt;
+      //if (obs2Z > OBS_MAX_Z) { obs2Z = OBS_MAX_Z; obs2Dir = -1; }
+      //if (obs2Z < OBS_MIN_Z) { obs2Z = OBS_MIN_Z; obs2Dir = 1; }
+
+      //obs3Z += obs3Dir * OBS_SPEED * dt;
+      //if (obs3Z > OBS_MAX_Z) { obs3Z = OBS_MAX_Z; obs3Dir = -1; }
+      //if (obs3Z < OBS_MIN_Z) { obs3Z = OBS_MIN_Z; obs3Dir = 1; }
+
+      // Spawnea los obstáculos
+
+      //document.getElementById("Obstaculo").setAttribute("translation", `0 ${JUGADOR_Y} ${obsZ}`);
+      //document.getElementById("EsferaObstaculo").setAttribute("translation", `-1 ${JUGADOR_Y} ${obs2Z}`);
+      //document.getElementById("ConoObstaculo").setAttribute("translation", `1 ${JUGADOR_Y} ${obs3Z}`);
+
+      // --- Detección de colisión frontal ---
+      const dx = Math.abs(posX - 0);     // obstáculo siempre en X=0
+      //const dx2 = Math.abs(posX - (-1)); // esfera en X=-1
+      //const dx3 = Math.abs(posX - 1);    // cono en X=
+      const dz = Math.abs(JUGADOR_Z - obsZ);
+      //const dz2 = Math.abs(JUGADOR_Z - obs2Z);
+      //const dz3 = Math.abs(JUGADOR_Z - obs3Z);
+
+      // Solo colisión si están casi centrados en X y cercanos en Z
+      //if ((dx1 < COL_X && dz1 < COL_Z) ||
+      //    (dx2 < COL_X && dz2 < COL_Z) ||
+      //    (dx3 < COL_X && dz3 < COL_Z)) {
+      if (dx < COL_X && dz < COL_Z){
+        gameActivo = false;
+        detenerAnimacion();
+        document.getElementById("pantallaGameOver").style.display = "flex";
+        return;
+      }
+
+      animationId = requestAnimationFrame(loop);
+    }
+
+    // Movimiento del jugador
+    document.addEventListener("keydown", (e) => {
+      if (!gameActivo) return;
+      const jugador = document.getElementById("Jugador");
+      if (e.key === "ArrowRight" && posX < 4) posX += 0.5;
+      if (e.key === "ArrowLeft"  && posX > -4) posX -= 0.5;
+      jugador.setAttribute("translation", `${posX} ${JUGADOR_Y} ${JUGADOR_Z}`);
+    });
+  </script>
+</body>
+</html>
