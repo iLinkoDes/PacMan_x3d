@@ -75,7 +75,8 @@
 
   <div id="pantallaGameOver">
     <h1>💥 ¡Game Over!</h1>
-    <p>¿Deseas continuar o salir al menú principal?</p>
+    <p>¿Deseas continuar o salir al menú principal?</p><br>
+    <h2>Puntuacion final: <div id="puntuacion"></div></h2>
     <div>
       <button onclick="reiniciarJuego()">Continuar</button>
       <button onclick="salirJuego()">Salir</button>
@@ -83,7 +84,8 @@
   </div>
   <div id="pantallaGanador">
     <h1>🎉Felicidades!</h1>
-    <p>Ganaste el juego, has recolectado todos los puntos posibles.</p>
+    <p>Ganaste el juego, has recolectado todos los puntos posibles.</p><br>
+    <h2>Puntuacion final: <div id="puntuacion1"></div></h2>
     <button onclick="reiniciarJuego()">Reiniciar</button>
     <button onclick="salirJuego()">Salir</button>
   </div>
@@ -114,6 +116,16 @@
           </Shape>
         </Transform> -->
 
+        <!-- Label Puntuacion -->
+        <Transform translation="-3 0.2 -8" rotation="1 0 0 -1.57">
+          <Shape>
+            <Appearance><Material diffuseColor="1 1 1"></Material></Appearance>
+            <Text id="labelPuntuacion" string='"Puntuacion: "' solid="false">
+              <FontStyle family='"SANS"' size="0.5"></FontStyle>
+            </Text>
+          </Shape>
+        </Transform>
+
         <!-- Suelo -->
         <Shape>
           <Appearance>
@@ -133,387 +145,10 @@
 		</Transform>
 
         <!-- Muros del laberinto -->
-         <Transform id="MuroSpawn1" translation="0 0 1">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="2.5 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-         <Transform id="MuroSpawn2" translation="-1 0 0">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="0.5 0.5 1.5"></Box>
-            </Shape>
-         </Transform>
-        <Transform id="MuroSpawn3" translation="1 0 0">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="0.5 0.5 1.5"></Box>
-            </Shape>
-         </Transform>
-        <Transform id="MuroSpawn4" translation="0.75 0 -1">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="1 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-        <Transform id="MuroSpawn5" translation="-0.75 0 -1">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="1 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
 
-         <Transform id="Muro1" translation="-1 0 -2">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"Material></Appearance>
-              <Box size="1.5 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
 
-        <Transform id="Muro2" translation="1 0 -2">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="1.5 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
 
-        <Transform id="Muro3" translation="2 0 -1.25">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="0.5 0.5 2"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro4" translation="2 0 1.25">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="0.5 0.5 2"></Box>
-            </Shape>
-         </Transform>
-
-         <Transform id="Muro5" translation="-1 0 2">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="1.5 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro6" translation="1 0 2">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="1.5 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro7" translation="-2 0 -1.25">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="0.5 0.5 2"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro8" translation="-2 0 1.25">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="0.5 0.5 2"></Box>
-            </Shape>
-         </Transform>
-
-         <Transform id="Muro9" translation="-1.25 0 -3">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="2 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro10" translation="1.25 0 -3">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="2 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro11" translation="-1.25 0 3">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="2 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro12" translation="1.25 0 3">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="2 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro13" translation="-3 0 0">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="0.5 0.5 6.5"></Box>
-            </Shape>
-         </Transform>
-         
-        <Transform id="Muro14" translation="3 0 0">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="0.5 0.5 6.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro16" translation="-4.25 0 2">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="1 0.5 2.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro18" translation="-4.25 0 -2">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="1 0.5 2.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro15" translation="-3.75 0 0">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="2 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro17" translation="3.75 0 0">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="2 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro19" translation="4.25 0 2">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="1 0.5 2.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro20" translation="4.25 0 -2">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="1 0.5 2.5"></Box>
-            </Shape>
-         </Transform>
-
-         <Transform id="Muro21" translation="-2.5 0 -4">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="1.5 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-         <Transform id="Muro22" translation="0 0 -4">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="2.5 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro23" translation="2.5 0 -4">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="1.5 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro24" translation="-4.25 0 -5.25">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="1 0.5 3"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro25" translation="4.25 0 -5.25">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="1 0.5 3"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro26" translation="-3 0 -5.75">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="0.5 0.5 2"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro27" translation="-2 0 -5.75">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="0.5 0.5 2"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro28" translation="-1 0 -5.5">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="0.5 0.5 2.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro29" translation="0 0 -5.75">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="0.5 0.5 2"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro30" translation="1 0 -5.5">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="0.5 0.5 2.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro31" translation="3 0 -5.75">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="0.5 0.5 2"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro32" translation="2 0 -5.75">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="0.5 0.5 2"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro33" translation="-2.5 0 4">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="4.5 0.5 0.5"></Box>
-            </Shape>
-        </Transform>
-
-        <Transform id="Muro34" translation="2.5 0 4">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="4.5 0.5 0.5"></Box>
-            </Shape>
-        </Transform>
-
-        <Transform id="Muro35" translation="-3.75 0 5">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="2 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro36" translation="-4 0 5.5">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="1.5 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro37" translation="-4.25 0 6">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="1 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro38" translation="-4.5 0 6.5">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="0.5 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro39" translation="-1.25 0 5">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="2 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro40" translation="-1.25 0 5.5">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="2 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro41" translation="-1.5 0 6">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="2.5 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro42" translation="-1.75 0 6.5">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="3 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro43" translation="1.25 0 5">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="2 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro44" translation="1.25 0 5.5">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="2 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro45" translation="1.5 0 6">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="2.5 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro46" translation="1.75 0 6.5">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="3 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro47" translation="3.75 0 5">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="2 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro48" translation="4 0 5.5">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="1.5 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro49" translation="4.25 0 6">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="1 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
-        <Transform id="Muro50" translation="4.5 0 6.5">
-            <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
-              <Box size="0.5 0.5 0.5"></Box>
-            </Shape>
-         </Transform>
-
+         <!-- MUROS EXTERIORES -->
         <Transform id="Muro51" translation="-5.5 0 0">
             <Shape>
               <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
@@ -632,9 +267,38 @@
         [4,0,11,2,0,0,0,0,0,0,4,0,0,0,0,0,0,3,10,0,4] , 
         [7,13,5,5,13,13,13,13,13,13,5,13,13,13,13,13,13,5,5,13,6] 
     ];
+
+
+ function generarMuros() {
+  const escena = document.querySelector('Scene');
+  if (!escena) return;
+
+  const startX = -5;
+  const startZ = -7;
+
+  for (let i = 0; i < matriz.length; i++) {
+    for (let j = 0; j < matriz[i].length; j++) {
+      if (matriz[i][j] === 0) {
+        const muro = document.createElement('Transform');
+        muro.classList.add("bolita");
+        muro.setAttribute('translation', `${startX + j * 0.5} 0.2 ${startZ + i * 0.5}`);
+
+        muro.innerHTML = `
+          <Shape>
+            <Appearance><Material diffuseColor="0 0 1"></Material></Appearance>
+            <Box size="0.5 0.5 0.5"></Box>
+          </Shape>
+        `;
+        escena.appendChild(muro);
+      }
+    }
+  }
+}
+
     //CONFIGURACION DE BOLITAS
 	let totalBolitas = 0;
   let bolitasComidas = 0;
+  let puntuacion = 0;
   const BOLITAS_RADIO = 0.25;
 
   function generarBolitas() {
@@ -648,7 +312,7 @@
     for (let j = 0; j < matriz[i].length; j++) {
       if (matriz[i][j] === 4) {
         const esfera = document.createElement('Transform');
-        esfera.classList.add("bolita"); // 🔹 importante
+        esfera.classList.add("bolita");
         esfera.setAttribute('translation', `${startX + j * 0.5} 0.2 ${startZ + i * 0.5}`);
 
         esfera.innerHTML = `
@@ -692,10 +356,12 @@
       if (distancia < BOLITAS_RADIO) {
         bolita.remove();
         bolitasComidas++;
-        console.log(`Comiste una bolita (${bolitasComidas}/${totalBolitas})`);
+        puntuacion+=1000;
+        //console.log(`Comiste una bolita (${bolitasComidas}/${totalBolitas})`);
 
         if (bolitasComidas >= totalBolitas) {
 		document.getElementById("pantallaGanador").style.display = "flex";
+    actualizarPuntuacion();
 		gameActivo = false; // Detén el juego temporalmente
 		cancelAnimationFrame(animationId); // Detén cualquier loop de animación
 		}
@@ -709,7 +375,8 @@
 
   // generar bolitas al cargar la escena
   window.addEventListener('load', generarBolitas);
-  
+  window.addEventListener('load', generarMuros);
+
 function reiniciarBolitas() {
   // Reiniciar variables del jugador
   bolitasComidas = 0;
@@ -719,6 +386,7 @@ function reiniciarBolitas() {
 
   // Volver a generarlas
   generarBolitas();
+  generarMuros();
 
   //  reiniciar posición del jugador
   const jugador = document.getElementById("Jugador");
@@ -798,14 +466,12 @@ function reiniciarBolitas() {
   document.getElementById("pantallaGameOver").style.display = "none";
   document.getElementById("pantallaInicio").style.display = "none";
   document.getElementById("contenedorJuego").style.display = "flex";
-iniciarEscena();
+  iniciarEscena();
   bolitasComidas = 0;
   reiniciarBolitas();
   posX = 0; posZ = 0;
-  actualizarJugador();
   
   gameActivo = true;
-  loopJuego(); // O como se llame tu función principal de animación
 }
 
     function salirJuego() {
@@ -814,7 +480,8 @@ iniciarEscena();
       document.getElementById("contenedorJuego").style.display = "none";
       document.getElementById("pantallaInicio").style.display = "flex";
      gameActivo = false;
-      detenerAnimacion();
+    detenerAnimacion();
+    bolitasComidas = 0;
 	  reiniciarBolitas();
     }
 
@@ -951,6 +618,7 @@ iniciarEscena();
           gameActivo = false;
           detenerAnimacion();
           document.getElementById("pantallaGameOver").style.display = "flex";
+          actualizarPuntuacion();
           return true;
         }
       }
@@ -1022,6 +690,21 @@ iniciarEscena();
         ).join(' ');
         textNode2.setAttribute('string', `"${info}"`);
       }; */
+
+      const textNode3 = document.querySelector('#labelPuntuacion');
+      if (textNode3) {
+        textNode3.setAttribute(
+          'string',
+          `"Puntuacion: ${puntuacion}"`
+        );
+      };
+
+    };
+
+    function actualizarPuntuacion() {
+      
+      document.getElementById("puntuacion").innerHTML = puntuacion;
+      document.getElementById("puntuacion1").innerHTML = puntuacion;
     };
 
     setInterval(actualizarEtiqueta, 100);
