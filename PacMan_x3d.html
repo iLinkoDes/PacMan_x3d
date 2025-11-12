@@ -7,7 +7,6 @@
   <script src="https://www.x3dom.org/download/x3dom.js"></script>
   <link rel="stylesheet" href="https://www.x3dom.org/download/x3dom.css">
   <script>
-    // Optimize canvas context for frequent getImageData calls
     var originalGetContext = HTMLCanvasElement.prototype.getContext;
     HTMLCanvasElement.prototype.getContext = function(contextType, options) {
       if (contextType === '2d') {
@@ -32,7 +31,7 @@
     #pantallaInicio, #pantallaGameOver, #contenedorJuego {
       position: absolute;
       inset: 0;
-      display: none;
+      display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
@@ -59,21 +58,19 @@
       border-radius: 10px;
       background: #000;
     }
-    #contenedorJuego { display: flex; }
+   /*  #contenedorJuego { display: flex; } */
   </style>
 </head>
 <body>
 
-  <!-- Pantalla de inicio -->
   <div id="pantallaInicio">
     <h1>🚀 Pac-Man en X3D 🚗</h1>
-    <p>Usa las flechas ← ↑ ↓ →  para mover a Pac-Man a travez del nivel.<br>
-       Cuidado con los fantasmas! <b>Continuar</b> o <b>Salir</b>.</p>
+    <p>Usa las flechas ← ↑ ↓ → para mover a Pac-Man a través del nivel.<br>
+       ¡Cuidado con los fantasmas! <b>Continuar</b> o <b>Salir</b>.</p>
        <br>Alumno: Ian Rivero Carmona
     <button onclick="iniciarJuego()">Iniciar Juego</button>
   </div>
 
-  <!-- Pantalla de Game Over -->
   <div id="pantallaGameOver">
     <h1>💥 ¡Game Over!</h1>
     <p>¿Deseas continuar o salir al menú principal?</p>
@@ -83,23 +80,16 @@
     </div>
   </div>
 
-  <!-- Contenedor del juego -->
-  <!-- <div id="contenedorJuego" style="display:none;"> -->
-    <div id="contenedorJuego"></div>
+  <div id="contenedorJuego" style="display:none;">
     <x3d id="escena" width="1200px" height="1200px">
       <scene>
         <background skyColor="0.1 0.1 0.3"></background>
-
-        <!-- Cámara superior (vista aérea) -->
         <Viewpoint position="0 14 0" orientation="1 0 0 -1.57" fieldOfView="1.2" description="Vista superior"></Viewpoint>
 
-        <!-- Title Text -->
         <Transform translation="-7 0.2 -9" rotation="1 0 0 -1.57">
           <Shape>
-            <Appearance>
-              <Material diffuseColor="1 1 1"></Material>
-            </Appearance>
-            <Text id="labelPosicion" string='"Position: 0, 0, 0"' solid="false">
+            <Appearance><Material diffuseColor="1 1 1"></Material></Appearance>
+            <Text id="labelPosicion" string='"Jugador: 0, 0"' solid="false">
               <FontStyle family='"SANS"' size="0.5"></FontStyle>
             </Text>
           </Shape>
@@ -107,32 +97,27 @@
 
         <Transform translation="-3 0.2 -8" rotation="1 0 0 -1.57">
           <Shape>
-            <Appearance>
-              <Material diffuseColor="1 1 1"></Material>
-            </Appearance>
-            <Text id="labelObstaculo" string='"Position: 0, 0, 0"' solid="false">
+            <Appearance><Material diffuseColor="1 1 1"></Material></Appearance>
+            <Text id="labelObstaculo" string='"Fantasmas"' solid="false">
               <FontStyle family='"SANS"' size="0.5"></FontStyle>
             </Text>
           </Shape>
         </Transform>
 
-        <!-- Suelo -->
         <Shape>
-          <Appearance>
-            <Material diffuseColor="0.1 0.6 0.1"></Material>
-          </Appearance>
+          <Appearance><Material diffuseColor="0.1 0.6 0.1"></Material></Appearance>
           <Box size="11.5 0.1 15.5"></Box>
         </Shape>
 
         <!-- Jugador (PacMan) -->
-        <Transform id="Jugador" translation="0 0 0">
+        <Transform id="Jugador" translation="0 0.3 0">
           <Shape>
-            <Appearance><Material diffuseColor="0.2 0.2 1"></Material></Appearance>
+            <Appearance><Material diffuseColor="1 1 0"></Material></Appearance>
             <Box size="0.5 0.5 0.5"></Box>
           </Shape>
         </Transform>
 
-        <!-- Escenario -->
+        <!-- Muros del laberinto -->
          <Transform id="MuroSpawn1" translation="0 0 1">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
@@ -163,8 +148,6 @@
               <Box size="1 0.5 0.5"></Box>
             </Shape>
          </Transform>
-
-         <!-- Muros Exteriores del Spawn -->
 
          <Transform id="Muro1" translation="-1 0 -2">
             <Shape>
@@ -250,8 +233,6 @@
             </Shape>
          </Transform>
 
-         <!-- LATERAL IZQUIERDO -->
-
         <Transform id="Muro13" translation="-3 0 0">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
@@ -259,7 +240,7 @@
             </Shape>
          </Transform>
          
-        <Transform id="Muro13" translation="3 0 0">
+        <Transform id="Muro14" translation="3 0 0">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="0.5 0.5 6.5"></Box>
@@ -280,300 +261,290 @@
             </Shape>
          </Transform>
 
-         <!-- LATERAL DERECHO -->
-
-        <Transform id="Muro14" translation="-3.75 0 0">
+        <Transform id="Muro15" translation="-3.75 0 0">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="2 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro15" translation="3.75 0 0">
+        <Transform id="Muro17" translation="3.75 0 0">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="2 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro17" translation="4.25 0 2">
+        <Transform id="Muro19" translation="4.25 0 2">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="1 0.5 2.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro19" translation="4.25 0 -2">
+        <Transform id="Muro20" translation="4.25 0 -2">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="1 0.5 2.5"></Box>
             </Shape>
          </Transform>
 
-         <!-- PARTE SUPERIOR -->
-
-         <Transform id="Muro20" translation="-2.5 0 -4">
+         <Transform id="Muro21" translation="-2.5 0 -4">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="1.5 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-         <Transform id="Muro21" translation="0 0 -4">
+         <Transform id="Muro22" translation="0 0 -4">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="2.5 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro22" translation="2.5 0 -4">
+        <Transform id="Muro23" translation="2.5 0 -4">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="1.5 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro23" translation="-4.25 0 -5.25">
+        <Transform id="Muro24" translation="-4.25 0 -5.25">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="1 0.5 3"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro24" translation="4.25 0 -5.25">
+        <Transform id="Muro25" translation="4.25 0 -5.25">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="1 0.5 3"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro25" translation="-3 0 -5.75">
+        <Transform id="Muro26" translation="-3 0 -5.75">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="0.5 0.5 2"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro26" translation="-2 0 -5.75">
+        <Transform id="Muro27" translation="-2 0 -5.75">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="0.5 0.5 2"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro27" translation="-1 0 -5.5">
+        <Transform id="Muro28" translation="-1 0 -5.5">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="0.5 0.5 2.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro28" translation="0 0 -5.75">
+        <Transform id="Muro29" translation="0 0 -5.75">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="0.5 0.5 2"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro29" translation="1 0 -5.5">
+        <Transform id="Muro30" translation="1 0 -5.5">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="0.5 0.5 2.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro30" translation="3 0 -5.75">
+        <Transform id="Muro31" translation="3 0 -5.75">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="0.5 0.5 2"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro31" translation="2 0 -5.75">
+        <Transform id="Muro32" translation="2 0 -5.75">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="0.5 0.5 2"></Box>
             </Shape>
          </Transform>
 
-         <!-- PARTE INFERIOR -->
-
-        <Transform id="Muro32" translation="-2.5 0 4">
+        <Transform id="Muro33" translation="-2.5 0 4">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="4.5 0.5 0.5"></Box>
             </Shape>
         </Transform>
 
-        <Transform id="Muro33" translation="2.5 0 4">
+        <Transform id="Muro34" translation="2.5 0 4">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="4.5 0.5 0.5"></Box>
             </Shape>
         </Transform>
 
-        <Transform id="Muro34" translation="-3.75 0 5">
+        <Transform id="Muro35" translation="-3.75 0 5">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="2 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro35" translation="-4 0 5.5">
+        <Transform id="Muro36" translation="-4 0 5.5">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="1.5 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro36" translation="-4.25 0 6">
+        <Transform id="Muro37" translation="-4.25 0 6">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="1 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro37" translation="-4.5 0 6.5">
+        <Transform id="Muro38" translation="-4.5 0 6.5">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="0.5 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro38" translation="-1.25 0 5">
+        <Transform id="Muro39" translation="-1.25 0 5">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="2 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro39" translation="-1.25 0 5.5">
+        <Transform id="Muro40" translation="-1.25 0 5.5">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="2 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro40" translation="-1.5 0 6">
+        <Transform id="Muro41" translation="-1.5 0 6">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="2.5 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro41" translation="-1.75 0 6.5">
+        <Transform id="Muro42" translation="-1.75 0 6.5">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="3 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro42" translation="1.25 0 5">
+        <Transform id="Muro43" translation="1.25 0 5">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="2 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro43" translation="1.25 0 5.5">
+        <Transform id="Muro44" translation="1.25 0 5.5">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="2 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro44" translation="1.5 0 6">
+        <Transform id="Muro45" translation="1.5 0 6">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="2.5 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro45" translation="1.75 0 6.5">
+        <Transform id="Muro46" translation="1.75 0 6.5">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="3 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro34" translation="3.75 0 5">
+        <Transform id="Muro47" translation="3.75 0 5">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="2 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro46" translation="4 0 5.5">
+        <Transform id="Muro48" translation="4 0 5.5">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="1.5 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro47" translation="4.25 0 6">
+        <Transform id="Muro49" translation="4.25 0 6">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="1 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro48" translation="4.5 0 6.5">
+        <Transform id="Muro50" translation="4.5 0 6.5">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="0.5 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-         <!-- MUROS EXTERIORES -->
-
-        <Transform id="Muro49" translation="-5.5 0 0">
+        <Transform id="Muro51" translation="-5.5 0 0">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="0.5 0.5 15.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro50" translation="5.5 0 0">
+        <Transform id="Muro52" translation="5.5 0 0">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="0.5 0.5 15.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro51" translation="0 0 -7.5">
+        <Transform id="Muro53" translation="0 0 -7.5">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="11.5 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-        <Transform id="Muro52" translation="0 0 7.5">
+        <Transform id="Muro54" translation="0 0 7.5">
             <Shape>
               <Appearance><Material diffuseColor="0.5 0.5 0.5"></Material></Appearance>
               <Box size="11.5 0.5 0.5"></Box>
             </Shape>
          </Transform>
 
-
-        <!-- Obstáculo (cubo rojo, mismo tamaño) -->
-        <!-- ROJO-->
-        <Transform id="Obstaculo" translation="9 0.3 9">
+        <!-- Fantasmas -->
+        <Transform id="Obstaculo" translation="0 0.3 0">
           <Shape>
             <Appearance><Material diffuseColor="1 0 0"></Material></Appearance>
             <Box size="0.5 0.5 0.5"></Box>
           </Shape>
         </Transform>
-        <!-- ROSA -->
-        <Transform id="Obstaculo2" translation="9 0.3 9">
+        
+        <Transform id="Obstaculo2" translation="0 0.3 0">
           <Shape>
             <Appearance><Material diffuseColor="1 0 1"></Material></Appearance>
             <Box size="0.5 0.5 0.5"></Box>
           </Shape>
         </Transform>
-        <!-- AZUL -->
-        <Transform id="Obstaculo3" translation="9 0.3 9">
+        
+        <Transform id="Obstaculo3" translation="0 0.3 0">
           <Shape>
-            <Appearance><Material diffuseColor="0 0 1"></Material></Appearance>
+            <Appearance><Material diffuseColor="0 1 1"></Material></Appearance>
             <Box size="0.5 0.5 0.5"></Box>
           </Shape>
         </Transform>
@@ -583,36 +554,35 @@
   </div>
 
   <script>
-    // === VARIABLES DE ESTADO ===
+    // Tabla de direcciones permitidas según el valor de la matriz
+    const direccionesPermitidas = {
+      0:  { arriba: false, abajo: false, izquierda: false, derecha: false }, // Sin movimiento
+      1:  { arriba: true,  abajo: true,  izquierda: true,  derecha: true  },
+      2:  { arriba: true,  abajo: true,  izquierda: true,  derecha: false },
+      3:  { arriba: true,  abajo: true,  izquierda: false, derecha: true  },
+      4:  { arriba: true,  abajo: true,  izquierda: false, derecha: false },
+      5:  { arriba: true,  abajo: false, izquierda: true,  derecha: true  },
+      6:  { arriba: true,  abajo: false, izquierda: true,  derecha: false },
+      7:  { arriba: true,  abajo: false, izquierda: false, derecha: true  },
+      8:  { arriba: true,  abajo: false, izquierda: false, derecha: false },
+      9:  { arriba: false, abajo: true,  izquierda: true,  derecha: true  },
+      10: { arriba: false, abajo: true,  izquierda: true,  derecha: false },
+      11: { arriba: false, abajo: true,  izquierda: false, derecha: true  },
+      12: { arriba: false, abajo: true,  izquierda: false, derecha: false },
+      13: { arriba: false, abajo: false, izquierda: true,  derecha: true  },
+      14: { arriba: false, abajo: false, izquierda: true,  derecha: false },
+      15: { arriba: false, abajo: false, izquierda: false, derecha: true  }
+    };
+
     let gameActivo = false;
     let animationId = null;
 
     // Jugador
-    let posX = 0;
-    let posZ = 0;
+    let posX = 0, posZ = 0;
     const JUGADOR_Y = 0.3;
-    const JUGADOR_Z = 0;
+    let matrizX = 14, matrizZ = 10;
 
-    // Obstáculo
-    let obsZ = -3;
-    let obsDir = 1;
-
-    let obs2Z = -2;
-    let obs2Dir = 1;
-
-    let obs3Z = -1;
-    let obs3Dir = 1;
-    const OBS_SPEED = 2.2; // unidades/seg
-    const OBS_MIN_Z = -3, OBS_MAX_Z = 3;
-
-    // Límites para colisión frontal
-    const COL_X = 0.25; // debe estar casi centrado
-    const COL_Z = 0.5;  // distancia frontal
-
-    // Control de tiempo
-    let lastTs = 0;
-
-    // Matriz del Mapa
+    // Matriz del laberinto
     const matriz = [ 
         [11,13,13,9,13,9,13,9,13,9,13,9,13,9,13,9,13,9,13,13,10] , 
         [4,0,0,4,0,4,0,4,0,4,0,4,0,4,0,4,0,4,0,0,4] , 
@@ -643,24 +613,8 @@
         [4,0,0,11,6,0,0,0,0,0,4,0,0,0,0,0,7,10,0,0,4] , 
         [4,0,11,2,0,0,0,0,0,0,4,0,0,0,0,0,0,3,10,0,4] , 
         [7,13,5,5,13,13,13,13,13,13,5,13,13,13,13,13,13,5,5,13,6] 
-    ]
+    ];
 
-    function numerosRandom(range = 66) {
-        const count = 3;
-
-        // Construye array 0..range-1
-        const pool = Array.from({ length: range }, (_, i) => i);
-
-        // Fisher-Yates parcial: solo hacemos los swaps necesarios para obtener `count` elementos aleatorios
-        // Esto es más eficiente que barajar todo si `range` es grande.
-        for (let i = range - 1; i >= range - count; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [pool[i], pool[j]] = [pool[j], pool[i]];
-        }
-
-        // Tomamos los últimos `count` elementos (ya aleatorizados)
-        return pool.slice(range - count);
-    }
 
     const spawnPoints = [ 
         [-5,-7], [-3.5,-7], [-2.5,-7], [-1.5, -7], [-0.5, -7], [0.5, -7], [1.5, -7], [2.5, -7], [3.5, -7], [5,-7], 
@@ -676,16 +630,48 @@
         [-5, 3.5], [-3.5, 3.5], [-2.5, 3.5], [0, 3.5], [2.5, 3.5], [3.5, 3.5], [5, 3.5],
         [-5, 4.5], [-2.5, 4.5], [0, 4.5], [2.5, 4.5], [5, 4.5],
         [-5,7], [-3.5,7],  [0.5, 7], [3.5, 7], [5,7]
- ];
- 
-    // Posicion inicial matriz
-    let matrizX = 14;
-    let matrizZ = 10;
-    let valorMatriz = matriz[matrizX][matrizZ];
+    ];
 
-    numerosSpawns = numerosRandom(66);
+    // Configuración de fantasmas
+    const fantasmas = [
+      { 
+        id: "Obstaculo", 
+        x: 0, z: 0, 
+        matrizX: 14, matrizZ: 10,
+        speed: 1.5,
+        lastMove: 0,
+        direccionActual: null
+      },
+      { 
+        id: "Obstaculo2", 
+        x: 0, z: 0, 
+        matrizX: 14, matrizZ: 10,
+        speed: 1.8,
+        lastMove: 0,
+        direccionActual: null
+      },
+      { 
+        id: "Obstaculo3", 
+        x: 0, z: 0, 
+        matrizX: 14, matrizZ: 10,
+        speed: 2.0,
+        lastMove: 0,
+        direccionActual: null
+      }
+    ];
 
-    // === FUNCIONES ===
+    let lastTs = 0;
+    const COL_DIST = 0.4;
+
+    function numerosRandom(range) {
+      const count = 3;
+      const pool = Array.from({ length: range }, (_, i) => i);
+      for (let i = range - 1; i >= range - count; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+      return pool.slice(range - count);
+    }
 
     function iniciarJuego() {
       document.getElementById("pantallaInicio").style.display = "none";
@@ -710,25 +696,35 @@
       gameActivo = true;
       posX = 0;
       posZ = 0;
-      obsZ = -3.5;
-      obs2Z = -1;
-      obs3Z = -2; 
-      obsDir = 1;
-      lastTs = 0;
       matrizX = 14;
       matrizZ = 10;
-      valorMatriz = matriz[matrizX][matrizZ];
-      numerosSpawns = numerosRandom(66);
+      lastTs = 0;
 
-      //const spawn1 = spawnPoints[numerosSpawns[0]][0];
-      //console.log(numerosSpawns);
+      const spawns = numerosRandom(66);
+      
+      // Inicializar fantasmas en posiciones aleatorias
+      fantasmas.forEach((fantasma, idx) => {
+        const spawn = spawnPoints[spawns[idx]];
+        fantasma.x = spawn[0];
+        fantasma.z = spawn[1];
+        
+        // Calcular posición en matriz desde coordenadas del mundo
+        // X mundo: -5 a 5 → matrizZ: 0 a 20
+        // Z mundo: -7 a 7 → matrizX: 0 a 28
+        fantasma.matrizZ = Math.round((fantasma.x + 5) / 0.5);
+        fantasma.matrizX = Math.round((fantasma.z + 7) / 0.5);
+        
+        fantasma.lastMove = 0;
+        fantasma.direccionActual = null;
+        
+        document.getElementById(fantasma.id).setAttribute(
+          "translation", 
+          `${fantasma.x} ${JUGADOR_Y} ${fantasma.z}`
+        );
+      });
 
-      // Reinicia posiciones
-      document.getElementById("Jugador").setAttribute("translation", `${posX} ${JUGADOR_Y} ${JUGADOR_Z}`);
-      document.getElementById("Obstaculo").setAttribute("translation", `${spawnPoints[numerosSpawns[0]][0]} ${JUGADOR_Y} ${spawnPoints[numerosSpawns[0]][1]}`);
-      document.getElementById("Obstaculo2").setAttribute("translation", `${spawnPoints[numerosSpawns[1]][0]} ${JUGADOR_Y} ${spawnPoints[numerosSpawns[1]][1]}`);
-      document.getElementById("Obstaculo3").setAttribute("translation", `${spawnPoints[numerosSpawns[2]][0]} ${JUGADOR_Y} ${spawnPoints[numerosSpawns[2]][1]}`);
-      //console.log("reinicio");
+      document.getElementById("Jugador").setAttribute("translation", `${posX} ${JUGADOR_Y} ${posZ}`);
+      
       detenerAnimacion();
       animationId = requestAnimationFrame(loop);
     }
@@ -740,52 +736,112 @@
       }
     }
 
-    // Animación principal
+    function moverFantasma(fantasma, dt) {
+      fantasma.lastMove += dt;
+      
+      // Cada fantasma se mueve según su velocidad
+      if (fantasma.lastMove < 1 / fantasma.speed) return;
+      
+      fantasma.lastMove = 0;
+      
+      // Verificar que la posición en matriz sea válida
+      if (fantasma.matrizX < 0 || fantasma.matrizX >= matriz.length ||
+          fantasma.matrizZ < 0 || fantasma.matrizZ >= matriz[0].length) {
+        console.log("Fantasma fuera de límites:", fantasma.id, fantasma.matrizX, fantasma.matrizZ);
+        return;
+      }
+      
+      const valorMatriz = matriz[fantasma.matrizX][fantasma.matrizZ];
+      const direcciones = direccionesPermitidas[valorMatriz];
+      
+      if (!direcciones) {
+        console.log("Valor de matriz inválido:", valorMatriz);
+        return;
+      }
+      
+      const esBaldosaRestringida = (Math.abs(fantasma.x - 0) < 0.01 && Math.abs(fantasma.z - (-1.5)) < 0.01);
+
+      // Obtener direcciones disponibles
+      const posibles = [];
+      if (direcciones.arriba) posibles.push('arriba');
+      if (direcciones.abajo && !esBaldosaRestringida) posibles.push('abajo');
+      if (direcciones.izquierda) posibles.push('izquierda');
+      if (direcciones.derecha) posibles.push('derecha');
+      
+      if (posibles.length === 0) return;
+      
+      // Eliminar dirección opuesta a la actual (evitar ir y venir)
+      const opuestos = {
+        'arriba': 'abajo',
+        'abajo': 'arriba',
+        'izquierda': 'derecha',
+        'derecha': 'izquierda'
+      };
+      
+      let direccionesFinales = posibles;
+      if (fantasma.direccionActual && posibles.length > 1) {
+        const opuesto = opuestos[fantasma.direccionActual];
+        direccionesFinales = posibles.filter(d => d !== opuesto);
+        if (direccionesFinales.length === 0) direccionesFinales = posibles;
+      }
+      
+      // Elegir dirección aleatoria
+      const direccion = direccionesFinales[Math.floor(Math.random() * direccionesFinales.length)];
+      fantasma.direccionActual = direccion;
+      
+      // Mover según la dirección
+      switch(direccion) {
+        case 'arriba':
+          fantasma.z -= 0.5;
+          fantasma.matrizX -= 1;
+          break;
+        case 'abajo':
+          fantasma.z += 0.5;
+          fantasma.matrizX += 1;
+          break;
+        case 'izquierda':
+          fantasma.x -= 0.5;
+          fantasma.matrizZ -= 1;
+          break;
+        case 'derecha':
+          fantasma.x += 0.5;
+          fantasma.matrizZ += 1;
+          break;
+      }
+      
+      // Actualizar posición visual
+      document.getElementById(fantasma.id).setAttribute(
+        "translation", 
+        `${fantasma.x} ${JUGADOR_Y} ${fantasma.z}`
+      );
+    }
+
+    function verificarColisiones() {
+      for (const fantasma of fantasmas) {
+        const dx = Math.abs(posX - fantasma.x);
+        const dz = Math.abs(posZ - fantasma.z);
+        
+        if (dx < COL_DIST && dz < COL_DIST) {
+          gameActivo = false;
+          detenerAnimacion();
+          document.getElementById("pantallaGameOver").style.display = "flex";
+          return true;
+        }
+      }
+      return false;
+    }
+
     function loop(ts) {
       if (!gameActivo) return;
       if (!lastTs) lastTs = ts;
-      const dt = (ts - lastTs) / 1000; // segundos
+      const dt = (ts - lastTs) / 1000;
       lastTs = ts;
 
-      // Movimiento del obstáculo
-      obsZ += obsDir * OBS_SPEED * dt;
-      if (obsZ > OBS_MAX_Z) { obsZ = OBS_MAX_Z; obsDir = -1; }
-      if (obsZ < OBS_MIN_Z) { obsZ = OBS_MIN_Z; obsDir = 1; }
-
-      //obs2Z += obs2Dir * OBS_SPEED * dt;
-      //if (obs2Z > OBS_MAX_Z) { obs2Z = OBS_MAX_Z; obs2Dir = -1; }
-      //if (obs2Z < OBS_MIN_Z) { obs2Z = OBS_MIN_Z; obs2Dir = 1; }
-
-      //obs3Z += obs3Dir * OBS_SPEED * dt;
-      //if (obs3Z > OBS_MAX_Z) { obs3Z = OBS_MAX_Z; obs3Dir = -1; }
-      //if (obs3Z < OBS_MIN_Z) { obs3Z = OBS_MIN_Z; obs3Dir = 1; }
-
-      // Spawnea los obstáculos
-      //console.log("spawn");
-      document.getElementById("Obstaculo").setAttribute("translation", `0 ${JUGADOR_Y} ${obsZ}`);
-      //document.getElementById("EsferaObstaculo").setAttribute("translation", `-1 ${JUGADOR_Y} ${obs2Z}`);
-      //document.getElementById("ConoObstaculo").setAttribute("translation", `1 ${JUGADOR_Y} ${obs3Z}`);
-
-      // --- Detección de colisión frontal ---
-      const dx = Math.abs(posX - 0);     // obstáculo siempre en X=0
-      //const dx2 = Math.abs(posX - (-1)); // esfera en X=-1
-      //const dx3 = Math.abs(posX - 1);    // cono en X=
-      const dz = Math.abs(posZ - obsZ);
-      //const dz2 = Math.abs(posZ - obs2Z);
-      //const dz3 = Math.abs(posZ - obs3Z);
-
-      // Solo colisión si están casi centrados en X y cercanos en Z
-      //if ((dx1 < COL_X && dz1 < COL_Z) ||
-      //    (dx2 < COL_X && dz2 < COL_Z) ||
-      //    (dx3 < COL_X && dz3 < COL_Z)) {
-      if (dx < COL_X && dz < COL_Z){
-        gameActivo = false;
-        matrizX = 14;
-        matrizZ = 10;
-        detenerAnimacion();
-        document.getElementById("pantallaGameOver").style.display = "flex";
-        return;
-      }
+      // Mover cada fantasma
+      fantasmas.forEach(fantasma => moverFantasma(fantasma, dt));
+      
+      // Verificar colisiones
+      if (verificarColisiones()) return;
 
       animationId = requestAnimationFrame(loop);
     }
@@ -793,57 +849,57 @@
     // Movimiento del jugador
     document.addEventListener("keydown", (e) => {
       if (!gameActivo) return;
+      
+      const valorMatriz = matriz[matrizX][matrizZ];
+      const direcciones = direccionesPermitidas[valorMatriz];
+      
+      if (!direcciones) return;
+      
       const jugador = document.getElementById("Jugador");
-      if (e.key === "ArrowRight" && (valorMatriz == 1 || valorMatriz == 3 || valorMatriz == 5 || valorMatriz == 7 || valorMatriz == 9 || valorMatriz == 11 || valorMatriz == 13 || valorMatriz == 15)){
-         posX += 0.5;
-         matrizZ += 1;
-         valorMatriz = matriz[matrizX][matrizZ]
+      
+      if (e.key === "ArrowRight" && direcciones.derecha) {
+        posX += 0.5;
+        matrizZ += 1;
       }
-      if (e.key === "ArrowLeft"  && (valorMatriz == 1 || valorMatriz == 2 || valorMatriz == 5 || valorMatriz == 6 || valorMatriz == 9 || valorMatriz == 10 || valorMatriz == 13 || valorMatriz == 14)){
+      if (e.key === "ArrowLeft" && direcciones.izquierda) {
         posX -= 0.5;
         matrizZ -= 1;
-        valorMatriz = matriz[matrizX][matrizZ]
-      } 
-      if (e.key === "ArrowUp" && (valorMatriz == 1 || valorMatriz == 2 || valorMatriz == 3 || valorMatriz == 4 || valorMatriz == 5 || valorMatriz == 6 || valorMatriz == 7 || valorMatriz == 8)){
-         posZ -= 0.5;
+      } ;
+      if (e.key === "ArrowUp" && direcciones.arriba) {
+        posZ -= 0.5;
         matrizX -= 1;
-        valorMatriz = matriz[matrizX][matrizZ]
-      }
-      if (e.key === "ArrowDown"  && (valorMatriz == 1 || valorMatriz == 2 || valorMatriz == 3 || valorMatriz == 4 || valorMatriz == 9 || valorMatriz == 10 || valorMatriz == 11 || valorMatriz == 12)){
-         posZ += 0.5;
+      };
+      if (e.key === "ArrowDown" && direcciones.abajo) {
+        posZ += 0.5;
         matrizX += 1;
-        valorMatriz = matriz[matrizX][matrizZ]
-      }
+      };
+      
       jugador.setAttribute("translation", `${posX} ${JUGADOR_Y} ${posZ}`);
+      verificarColisiones();
     });
 
-    
-    // Actualiza el label con las coordenadas actuales del jugador
     function actualizarEtiqueta() {
-    const textNode = document.querySelector('#labelPosicion');
-    if (textNode) {
+      const textNode = document.querySelector('#labelPosicion');
+      if (textNode) {
         textNode.setAttribute(
           'string',
-          //`"X: ${posX.toFixed(1)}, Y: ${JUGADOR_Y.toFixed(1)}, Z: ${posZ.toFixed(1)} Matriz: ${valorMatriz}"`
-          `" Obj 1: ${spawnPoints[numerosSpawns[0]][0]}, ${JUGADOR_Y}, ${spawnPoints[numerosSpawns[0]][1]}. Obj 2: ${spawnPoints[numerosSpawns[1]][0]}, ${JUGADOR_Y}, ${spawnPoints[numerosSpawns[1]][1]}. Obj 3: ${spawnPoints[numerosSpawns[2]][0]}, ${JUGADOR_Y}, ${spawnPoints[numerosSpawns[2]][1]}."`
+          `"Jugador: X:${posX.toFixed(1)} Z:${posZ.toFixed(1)} Matriz:[${matrizX},${matrizZ}] Valor:${matriz[matrizX][matrizZ]}"`
         );
-    }
-    const textNode2 = document.querySelector('#labelObstaculo');
-    if (textNode2) {
-        textNode2.setAttribute(
-          'string',
-          `"X: 0.0, Y: ${JUGADOR_Y.toFixed(1)}, Z: ${obsZ.toFixed(1)}, diffX: ${Math.abs(posX - 0).toFixed(2)} ,diffZ: ${Math.abs(posZ - obsZ).toFixed(2)}"`
-        );
-    }
-    }
+      };
+      
+      const textNode2 = document.querySelector('#labelObstaculo');
+      if (textNode2) {
+        const info = fantasmas.map((f, i) => 
+          `F${i+1}:[${f.matrizX},${f.matrizZ}]`
+        ).join(' ');
+        textNode2.setAttribute('string', `"${info}"`);
+      };
+    };
 
-
-    // Llamar a funcion en el bucle del juego (por ejemplo, en requestAnimationFrame o en tu función de actualización)
-    setInterval(actualizarEtiqueta, 100); // Update every 100ms
-
-    // Activa la escena al cargar la pagina, desactivar al terminar debug
-    iniciarEscena();
-
+    setInterval(actualizarEtiqueta, 100);
+    
+    // Iniciar automáticamente (comentar esta línea para mostrar pantalla de inicio)
+    //iniciarEscena();
   </script>
 </body>
 </html>
