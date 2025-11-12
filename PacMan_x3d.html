@@ -95,7 +95,8 @@
         <background skyColor="0.1 0.1 0.3"></background>
         <Viewpoint position="0 14 0" orientation="1 0 0 -1.57" fieldOfView="1.2" description="Vista superior"></Viewpoint>
 
-        <Transform translation="-7 0.2 -9" rotation="1 0 0 -1.57">
+        <!-- LABELS PARA DEBUG -->
+<!--         <Transform translation="-7 0.2 -9" rotation="1 0 0 -1.57">
           <Shape>
             <Appearance><Material diffuseColor="1 1 1"></Material></Appearance>
             <Text id="labelPosicion" string='"Jugador: 0, 0"' solid="false">
@@ -111,7 +112,7 @@
               <FontStyle family='"SANS"' size="0.5"></FontStyle>
             </Text>
           </Shape>
-        </Transform>
+        </Transform> -->
 
         <!-- Suelo -->
         <Shape>
@@ -1004,7 +1005,9 @@ iniciarEscena();
     });
 
     function actualizarEtiqueta() {
-      const textNode = document.querySelector('#labelPosicion');
+
+      /* LABELS PARA DEBUG */
+/*       const textNode = document.querySelector('#labelPosicion');
       if (textNode) {
         textNode.setAttribute(
           'string',
@@ -1018,7 +1021,7 @@ iniciarEscena();
           `F${i+1}:[${f.matrizX},${f.matrizZ}]`
         ).join(' ');
         textNode2.setAttribute('string', `"${info}"`);
-      };
+      }; */
     };
 
     setInterval(actualizarEtiqueta, 100);
