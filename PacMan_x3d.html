@@ -28,7 +28,7 @@
       height: 100vh;
       overflow: hidden;
     }
-    #pantallaInicio, #pantallaGameOver, #contenedorJuego {
+    #pantallaInicio, #pantallaGameOver, #contenedorJuego, #pantallaGanador {
       position: absolute;
       inset: 0;
       display: flex;
@@ -36,12 +36,12 @@
       align-items: center;
       flex-direction: column;
     }
-    #pantallaInicio, #pantallaGameOver {
+    #pantallaInicio, #pantallaGameOver, #pantallaGanador {
       background: rgba(0,0,0,0.9);
       text-align: center;
       z-index: 2;
     }
-    #pantallaGameOver { display: none; }
+    #pantallaGameOver, #pantallaGanador { display: none; }
     button {
       margin-top: 16px;
       padding: 10px 20px;
@@ -78,6 +78,12 @@
       <button onclick="reiniciarJuego()">Continuar</button>
       <button onclick="salirJuego()">Salir</button>
     </div>
+  </div>
+  <div id="pantallaGanador">
+    <h1>🎉Felicidades!</h1>
+    <p>Ganaste el juego, has recolectado todos los puntos posibles.</p>
+    <button onclick="reiniciarJuego()">Reiniciar</button>
+    <button onclick="salirJuego()"></button>
   </div>
 
   <div id="contenedorJuego" style="display:none;">
@@ -745,19 +751,19 @@
       fantasma.lastMove = 0;
       
       // Verificar que la posición en matriz sea válida
-      if (fantasma.matrizX < 0 || fantasma.matrizX >= matriz.length ||
+      /* if (fantasma.matrizX < 0 || fantasma.matrizX >= matriz.length ||
           fantasma.matrizZ < 0 || fantasma.matrizZ >= matriz[0].length) {
         console.log("Fantasma fuera de límites:", fantasma.id, fantasma.matrizX, fantasma.matrizZ);
         return;
-      }
+      } */
       
       const valorMatriz = matriz[fantasma.matrizX][fantasma.matrizZ];
       const direcciones = direccionesPermitidas[valorMatriz];
       
-      if (!direcciones) {
+      /* if (!direcciones) {
         console.log("Valor de matriz inválido:", valorMatriz);
         return;
-      }
+      } */
       
       const esBaldosaRestringida = (Math.abs(fantasma.x - 0) < 0.01 && Math.abs(fantasma.z - (-1.5)) < 0.01);
 
