@@ -149,28 +149,28 @@
           <!-- MUROS EXTERIORES -->
         <Transform id="Muro51" translation="-5.5 0 0">
             <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
+              <Appearance><Material diffuseColor="0.65, 0.07, 1"></Material></Appearance>
               <Box size="0.5 0.5 15.5"></Box>
             </Shape>
           </Transform>
 
         <Transform id="Muro52" translation="5.5 0 0">
             <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
+              <Appearance><Material diffuseColor="0.65, 0.07, 1"></Material></Appearance>
               <Box size="0.5 0.5 15.5"></Box>
             </Shape>
           </Transform>
 
         <Transform id="Muro53" translation="0 0 -7.5">
             <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
+              <Appearance><Material diffuseColor="0.65, 0.07, 1"></Material></Appearance>
               <Box size="11.5 0.5 0.5"></Box>
             </Shape>
           </Transform>
 
         <Transform id="Muro54" translation="0 0 7.5">
             <Shape>
-              <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
+              <Appearance><Material diffuseColor="0.65, 0.07, 1"></Material></Appearance>
               <Box size="11.5 0.5 0.5"></Box>
             </Shape>
           </Transform>
@@ -193,7 +193,7 @@
           <!-- AZUL -->
         <Transform id="Obstaculo3" translation="0 0.3 0">
           <Shape>
-            <Appearance><Material diffuseColor="0 0 1"></Material></Appearance>
+            <Appearance><Material diffuseColor="0 0 255"></Material></Appearance>
             <Box size="0.5 0.5 0.5"></Box>
           </Shape>
         </Transform>
@@ -283,7 +283,7 @@
 
         muro.innerHTML = `
           <Shape>
-            <Appearance><Material diffuseColor="0 0 1"></Material></Appearance>
+            <Appearance><Material diffuseColor="0.69, 0.07, 1"></Material></Appearance>
             <Box size="0.5 0.5 0.5"></Box>
           </Shape>
         `;
@@ -361,6 +361,7 @@
 		document.getElementById("pantallaGanador").style.display = "flex";
     actualizarPuntuacion();
 		gameActivo = false; // Detén el juego temporalmente
+    puntuacion=0;
 		cancelAnimationFrame(animationId); // Detén cualquier loop de animación
 		}
 
@@ -617,6 +618,7 @@ function reiniciarBolitas() {
           detenerAnimacion();
           document.getElementById("pantallaGameOver").style.display = "flex";
           actualizarPuntuacion();
+          puntuacion=0;
           return true;
         }
       }
