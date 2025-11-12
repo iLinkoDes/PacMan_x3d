@@ -65,7 +65,7 @@
 <body>
 
   <div id="pantallaInicio">
-    <h1>🚀 Pac-Man en X3D 🚗</h1>
+    <h1>🍒 Pac-Man en X3D 🍎</h1>
     <p>Usa las flechas ← ↑ ↓ → para mover a Pac-Man a través del nivel.<br>
        ¡Cuidado con los fantasmas! <b>Continuar</b> o <b>Salir</b>.</p>
        <br>Alumnos: Ian Rivero Carmona
@@ -92,13 +92,13 @@
   
 
   <div id="contenedorJuego" style="display:none;">
-    <x3d id="escena" width="1200px" height="1200px">
+    <x3d id="escena" width="1000px" height="1000px">
       <scene>
         <background skyColor="0.1 0.1 0.3"></background>
         <Viewpoint position="0 14 0" orientation="1 0 0 -1.57" fieldOfView="1.2" description="Vista superior"></Viewpoint>
 
         <!-- LABELS PARA DEBUG -->
-<!--         <Transform translation="-7 0.2 -9" rotation="1 0 0 -1.57">
+  <!--  <Transform translation="-7 0.2 -9" rotation="1 0 0 -1.57">
           <Shape>
             <Appearance><Material diffuseColor="1 1 1"></Material></Appearance>
             <Text id="labelPosicion" string='"Jugador: 0, 0"' solid="false">
@@ -117,7 +117,7 @@
         </Transform> -->
 
         <!-- Label Puntuacion -->
-        <Transform translation="-3 0.2 -8" rotation="1 0 0 -1.57">
+        <Transform translation="-2 0.2 -8" rotation="1 0 0 -1.57">
           <Shape>
             <Appearance><Material diffuseColor="1 1 1"></Material></Appearance>
             <Text id="labelPuntuacion" string='"Puntuacion: "' solid="false">
@@ -134,73 +134,71 @@
           <Box size="11.5 0.1 15.5"></Box>
         </Shape>
 
-        <!-- Jugador (PacMan) -->
-		<Transform id="Jugador" translation="0 0 0">
-		<Shape>
-			<Appearance>
-		<Material diffuseColor="1 1 0"></Material> <!-- Color amarillo -->
-		</Appearance>
-		<Sphere radius="0.25"></Sphere> <!-- Esfera en lugar de caja -->
-		</Shape>
-		</Transform>
+            <!-- Jugador (PacMan) -->
+        <Transform id="Jugador" translation="0 0 0">
+        <Shape>
+          <Appearance>
+        <Material diffuseColor="1 1 0"></Material> <!-- Color amarillo -->
+        </Appearance>
+        <Sphere radius="0.25"></Sphere> <!-- Esfera en lugar de caja -->
+        </Shape>
+        </Transform>
 
-        <!-- Muros del laberinto -->
+          <!-- Muros del laberinto -->
 
-
-
-         <!-- MUROS EXTERIORES -->
+          <!-- MUROS EXTERIORES -->
         <Transform id="Muro51" translation="-5.5 0 0">
             <Shape>
               <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
               <Box size="0.5 0.5 15.5"></Box>
             </Shape>
-         </Transform>
+          </Transform>
 
         <Transform id="Muro52" translation="5.5 0 0">
             <Shape>
               <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
               <Box size="0.5 0.5 15.5"></Box>
             </Shape>
-         </Transform>
+          </Transform>
 
         <Transform id="Muro53" translation="0 0 -7.5">
             <Shape>
               <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
               <Box size="11.5 0.5 0.5"></Box>
             </Shape>
-         </Transform>
+          </Transform>
 
         <Transform id="Muro54" translation="0 0 7.5">
             <Shape>
               <Appearance><Material diffuseColor="0 0 0.5"></Material></Appearance>
               <Box size="11.5 0.5 0.5"></Box>
             </Shape>
-         </Transform>
+          </Transform>
 
         <!-- Fantasmas -->
-		 <!-- ROJO -->
+      <!-- ROJO -->
         <Transform id="Obstaculo" translation="0 0.3 0">
           <Shape>
             <Appearance><Material diffuseColor="1 0 0"></Material></Appearance>
             <Box size="0.5 0.5 0.5"></Box>
           </Shape>
         </Transform>
-         <!-- VERDE -->
+          <!-- VERDE -->
         <Transform id="Obstaculo2" translation="0 0.3 0">
           <Shape>
             <Appearance><Material diffuseColor="0 1 0"></Material></Appearance>
             <Box size="0.5 0.5 0.5"></Box>
           </Shape>
         </Transform>
-         <!-- AZUL -->
+          <!-- AZUL -->
         <Transform id="Obstaculo3" translation="0 0.3 0">
           <Shape>
             <Appearance><Material diffuseColor="0 0 1"></Material></Appearance>
             <Box size="0.5 0.5 0.5"></Box>
           </Shape>
         </Transform>
-<!-- Bolitas  -->
-     <Transform DEF="Bolitas"></Transform>
+    <!-- Bolitas  -->
+        <Transform DEF="Bolitas"></Transform>
 
       </scene>
     </x3d>
@@ -391,7 +389,7 @@ function reiniciarBolitas() {
   //  reiniciar posición del jugador
   const jugador = document.getElementById("Jugador");
   if (jugador) {
-    jugador.setAttribute("translation", "0 0 0");
+    jugador.setAttribute("translation", "0 0.3 0");
   }
 
   console.log("Juego reiniciado, bolitas restauradas.");
